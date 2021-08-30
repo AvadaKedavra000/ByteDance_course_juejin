@@ -1,14 +1,14 @@
 <template>
     <h2>我是Home的内容</h2>
-    <nav-bar />
+    <NavBar/>
 </template>
 
 <script>
-import navBar from '../components/NavBar.vue'
+import NavBar from '../components/NavBar.vue'
 export default {
-    nmae: 'home',
+    name: 'home',
     components: {
-        navBar
+        NavBar
     },
 }
 </script>
