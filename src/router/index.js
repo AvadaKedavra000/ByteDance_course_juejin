@@ -1,22 +1,33 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import About from '../views/About.vue'
+
 //创建路由器
 const router = createRouter({
   history: createWebHashHistory(), // hash模式：createWebHashHistory，history模式：createWebHistory
   routes: [
     {
-      // name: 'home',
-      path:'/home',
-      component: Home,
+      path: '/',
+      redirect: '/hot-topics'
+    },
+    {
+      path: '/hot-topics',
+      name:'hot-topics',
+      component: () => import('../views/HotTopics.vue'),
       // meta: {
-      //   index: 1
+      //   index: 2
       // }
     },
     {
-      // name: 'about',
-      path:'/about',
-      component: About,
+      path: '/latest-topics',
+      name:'latest-topics',
+      component: () => import('../views/LatestTopics.vue'),
+      // meta: {
+      //   index: 2
+      // }
+    },
+    {
+      path: '/browsing-history',
+      name:'browsing-history',
+      component: () => import('../views/BrowsingHistory.vue'),
       // meta: {
       //   index: 2
       // }
