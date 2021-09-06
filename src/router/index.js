@@ -6,31 +6,38 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/hot-topics'
+      // redirect: '/hot'
+      component: () => import('../views/ArticleList.vue'),
+    },
+    // {
+    //   path: '/hot',
+    //   component: () => import('../views/Hot.vue'),
+    // },
+    // {
+    //   path: '/newest',
+    //   name: 'newest',
+    //   component: () => import('../views/Newest.vue'),
+    // },
+    {
+      path: '/:primaryRoute?/:secondaryRoute?/:tertiaryRoute?',
+      name: 'ArticleList',
+      component: () => import('../views/ArticleList.vue'),
     },
     {
-      path: '/hot-topics',
-      name:'hot-topics',
-      component: () => import('../views/HotTopics.vue'),
-      // meta: {
-      //   index: 2
-      // }
+      path: '/hot/:secondaryRoute?/:tertiaryRoute?',
+      name: 'HotArticleList',
+      component: () => import('../views/ArticleList.vue'),
     },
     {
-      path: '/latest-topics',
-      name:'latest-topics',
-      component: () => import('../views/LatestTopics.vue'),
-      // meta: {
-      //   index: 2
-      // }
+      path: '/newest/:secondaryRoute?/:tertiaryRoute?',
+      name: 'NewestArticleList',
+      component: () => import('../views/ArticleList.vue'),
     },
+
     {
-      path: '/browsing-history',
-      name:'browsing-history',
-      component: () => import('../views/BrowsingHistory.vue'),
-      // meta: {
-      //   index: 2
-      // }
+      path: '/history',
+      name: 'history',
+      component: () => import('../views/History.vue'),
     }
   ]
 })
