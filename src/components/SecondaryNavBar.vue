@@ -11,22 +11,30 @@
         <span>{{ item.title }}</span>
       </li>
     </ul>
-    <TertiaryNavBar :secondaryNavIndex="secondaryNavIndex"  v-show="secondaryNavIndex"/>
+    <TertiaryNavBar :secondaryNavIndex="secondaryNavIndex" v-show="secondaryNavIndex" />
   </div>
 </template>
   
   <script>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+// import { getCategories } from '../fake-api/index.js'
 import TertiaryNavBar from '../components/TertiaryNavBar.vue'
 export default {
   components: {
     TertiaryNavBar
   },
   setup() {
+    onMounted(() => { console.log("SecondaryNavBar.vue组件被挂载啦！") });
+    console.log('SecondaryNavBar.vue的setup开始执行')
     const store = useStore();
     const router = useRouter();
+    // const categories = getCategories().then(value => {
+    //   console.log('即将被赋值给categories的：',value.data.categories)
+    //   return value.data.categories;
+    // });
+
     let secondaryNavIndex = ref(0);
     const routerLinkList = [
       {
@@ -54,9 +62,9 @@ export default {
     const getPath = () => {
       const routeConfig = {
         name: 'ArticleList',
-        params:{
-            primaryRoute:`${store.state.primaryNavTitle}`,
-            secondaryRoute:`${store.state.secondaryNavTitle}`
+        params: {
+          primaryRoute: `${store.state.primaryNavTitle}`,
+          secondaryRoute: `${store.state.secondaryNavTitle}`
         }
       };
       return routeConfig;
@@ -73,7 +81,9 @@ export default {
       //再进行跳转
       router.push(path);
     }
+    console.log('SecondaryNavBar.vue的setup结束执行')
     return {
+      // categories,
       secondaryNavIndex,
       routerLinkList,
       clickSecondaryNav

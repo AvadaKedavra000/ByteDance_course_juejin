@@ -1,14 +1,23 @@
 <template>
-    <h2>我是历史浏览的内容</h2>
+  <h2>我是历史浏览</h2>
+  <h2>我是历史浏览</h2>
+  <h2>我是历史浏览</h2>
+  <h2>我是历史浏览</h2>
+  <h2>我是历史浏览</h2>
+  <h2>我是历史浏览</h2>
+  <h2>我是历史浏览</h2>
+  <h2>我是历史浏览</h2>
+  <h2>我是历史浏览</h2>
+  <h2>我是历史浏览</h2>
 </template>
 
 <script>
 
 export default {
-    name: 'History',
-    components: {
+  name: 'History',
+  components: {
 
-    },
+  },
 }
 </script>
 
