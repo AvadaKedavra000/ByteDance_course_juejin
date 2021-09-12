@@ -46,16 +46,14 @@ getCategories().then(value => {
     categories.value = value.data.categories;
 });
 
-import { useRoute } from 'vue-router'
-const route = useRoute();
-
-
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+
 const store = useStore();
 const router = useRouter();
 let secondaryNavIndex = ref(0);
 let tertiaryNavIndex = ref(0);
+
 //二级导航栏的编程式路由导航
 const clickSecondaryNav = (index) => {
     const getPath = () => {
@@ -102,7 +100,6 @@ const clickTertiaryNav = (index) => {
     const routeConfig = getRouteConfig();
     //再进行跳转
     router.push(routeConfig);
-    console.log(route.params);
 }
 
 
