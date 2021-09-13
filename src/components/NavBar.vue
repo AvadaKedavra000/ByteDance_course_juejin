@@ -21,6 +21,34 @@ import { useRouter } from 'vue-router'
 export default {
   setup() {
     const router = useRouter();
+
+
+    //sortBy的判定 和 分类的判定完全可以丢在路由守卫中进行！！！！！！！！！！！！
+    router.beforeEach((to, from) => {
+      console.log('to.name',to.name);
+      console.log('to.params.primaryRoute',to.params.primaryRoute);
+      const getPrimaryNavIndex = () => {
+        if (to.name === 'history') {
+          return 2;
+        }
+        else if(to.name === 'origin'){
+          return 0;
+        }
+        else if (to.name === 'ArticleList') {
+          if (to.params.primaryRoute === "hot") {
+            return 0;
+          }
+          else if (to.params.primaryRoute === "new") {
+            return 1;
+          }
+        }
+      }
+      primaryNavIndex.value = getPrimaryNavIndex();
+
+      return true
+    })
+
+
     const store = useStore();
     let primaryNavIndex = ref(0);
 
