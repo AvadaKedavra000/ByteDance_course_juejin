@@ -15,23 +15,32 @@
 </template>
 
 <script>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { useRoute } from 'vue-router'
+import { getCategories } from '../fake-api/index'
+
 export default {
   setup() {
+    let primaryNavIndex = ref(0);
     const router = useRouter();
+    const store = useStore();
 
-
-    //sortBy的判定 和 分类的判定完全可以丢在路由守卫中进行！！！！！！！！！！！！
+    //全局路由守卫
     router.beforeEach((to, from) => {
-      console.log('to.name',to.name);
-      console.log('to.params.primaryRoute',to.params.primaryRoute);
+      console.log('NavBar中的路由守卫被触发了');
+      console.log('to.name', to.name);
+      console.log('to.params', to.params);
+      console.log('to.params.primaryRoute', to.params.primaryRoute);
+
+
+      //取得primaryNavIndex并赋值
       const getPrimaryNavIndex = () => {
         if (to.name === 'history') {
           return 2;
         }
-        else if(to.name === 'origin'){
+        else if (to.name === 'origin') {
           return 0;
         }
         else if (to.name === 'ArticleList') {
@@ -45,12 +54,67 @@ export default {
       }
       primaryNavIndex.value = getPrimaryNavIndex();
 
+      //设置store.sortBy
+      const getSortBy = (Index) => {
+        let sortBy = "";
+        if (Index === 0) {
+          return "hot";
+        }
+        else if (Index === 1) {
+          return "new"
+        }
+      }
+      const sortBy=getSortBy(primaryNavIndex.value);
+      store.commit("setSortBy", sortBy);
+
+      //取得分类id并设置store.categoryId
+      getCategories().then(res => {
+        const categories = res.data.categories;
+        console.log(categories);
+        //通过分类名称获取分类id
+        const getCategoryIdFromName = (name1, name2) => {
+          //若name2不为空,查找两层循环
+          if (typeof name2 == 'string' && name2.length > 0) {
+            for (const first of categories) {
+              if (name1 === first.category_name) {
+                if (name2 === "全部") {
+                  return first.category_id;
+                }
+                else {
+                  for (const second of first.children) {
+                    if (name2 === second.category_name) {
+                      return second.category_id
+                    }
+                  }
+                }
+              }
+            }
+          }
+          else {//否则只用查找一层循环
+            for (const first of categories) {
+              if (name1 === first.category_name) {
+                return first.category_id
+              }
+            }
+          }
+          return 0;
+        }
+        const id=getCategoryIdFromName(to.params.secondaryRoute,to.params.tertiaryRoute);
+        //提交
+        store.commit("setCategoryId", id);
+      })
+
       return true
     })
 
 
-    const store = useStore();
-    let primaryNavIndex = ref(0);
+
+
+    const route = useRoute();
+    console.log('NavBar被setup！！！ route~~~~', route.params);
+    onMounted(() => {
+      console.log('NavBar被挂载啦！！！ route~~~~', route.params);
+    })
 
     const routerLinkList = [
       {
@@ -60,7 +124,7 @@ export default {
       },
       {
         title: "最新",
-        thePath: "newest",
+        thePath: "new",
         iconName: "icon-lights",
       },
       {
@@ -76,28 +140,28 @@ export default {
         name: 'ArticleList'
       };
       if (store.state.secondaryNavTitle === "recommended") {
-        routeConfig.params = { primaryRoute:`${store.state.primaryNavTitle}`};
+        routeConfig.params = { primaryRoute: `${store.state.primaryNavTitle}` };
       }
       else {
         if (store.state.tertiaryNavTitle === "全部") {
           routeConfig.params = {
-            primaryRoute:`${store.state.primaryNavTitle}`,
-            secondaryRoute:`${store.state.secondaryNavTitle}`
+            primaryRoute: `${store.state.primaryNavTitle}`,
+            secondaryRoute: `${store.state.secondaryNavTitle}`
           };
         }
         else {
           routeConfig.params = {
-            primaryRoute:`${store.state.primaryNavTitle}`,
-            secondaryRoute:`${store.state.secondaryNavTitle}`,
-            tertiaryRoute:`${store.state.tertiaryNavTitle}`
-        };
+            primaryRoute: `${store.state.primaryNavTitle}`,
+            secondaryRoute: `${store.state.secondaryNavTitle}`,
+            tertiaryRoute: `${store.state.tertiaryNavTitle}`
+          };
         }
       }
       return routeConfig;
     }
     //编程式路由导航
     const clickPrimaryNav = (index) => {
-      primaryNavIndex.value = index;
+      console.log('click___route.params', route.params)
       //先改变PrimaryNavTitle
       store.commit('changePrimaryNavTitle', routerLinkList[index].thePath);
       //若点击[历史]，则直接跳转，否则继续判断

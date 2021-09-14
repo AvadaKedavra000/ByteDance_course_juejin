@@ -28,7 +28,7 @@ export async function getCategories() {
 
 /**
  * 获取分类和排序获取文章列表
- * @param {*} category 文章分类 id
+ * @param {*} categoryId 文章分类 id
  * @param {*} sortBy 文章列表排序 'hot' 代表热门， 'new' 代表最新
  * @param {*} offset 分页参数参考 sql 的 offset 和 limit
  * @param {*} limit 同上

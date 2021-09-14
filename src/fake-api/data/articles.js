@@ -22,6 +22,15 @@ import { content as content3 } from './content/content3';
 import { content as content4 } from './content/content4';
 import { content as content5 } from './content/content5';
 
+/**
+ * 为articles对象添加category_info属性
+ * @param {Object[]} articles - 文章信息
+ *    @param {string} articles[].id - 文章id
+ *    @param {Object} articles[].article_info - 文章信息
+ *    @param {Object} articles[].author_user_info - 作者_用户信息
+ * @param {Number} categoryId - 文章分类id
+ * @returns {Object[]}  - 添加了category_info属性后的articles对象
+ */
 function appendCategoryInfo(articles, categoryId) {
   for (const first of categories) {
     for (const second of first.children || []) {
@@ -64,6 +73,7 @@ const iosArticles = [
   ...appendCategoryInfo(iosSwiftArticles, 41),
 ];
 
+//随机添加文章内容,暴露所有文章信息
 export const articles = [...frontendArticles, ...backendArticles, ...androidArticles, ...iosArticles].map(a => ({
   ...a,
   article_content: [content1, content2, content3, content4, content5][parseInt(a.article_id.slice(-1)) % 5],

@@ -7,5 +7,11 @@ export default {
     },
     changeTertiaryNavTitle(state,title){
         state.tertiaryNavTitle=title;
+    },
+    setSortBy(state,value){
+        state.sortBy=value;
+    },
+    setCategoryId(state,value){
+        state.categoryId=value;
     }
   }

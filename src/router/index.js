@@ -6,34 +6,15 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      // redirect: '/hot'
-      component: () => import('../views/ArticleList.vue'),
+      // redirect: '/hot',
+      name:'origin',
+      component: () => import('../views/ArticleList.vue')
     },
-    // {
-    //   path: '/hot',
-    //   component: () => import('../views/Hot.vue'),
-    // },
-    // {
-    //   path: '/newest',
-    //   name: 'newest',
-    //   component: () => import('../views/Newest.vue'),
-    // },
     {
       path: '/:primaryRoute?/:secondaryRoute?/:tertiaryRoute?',
       name: 'ArticleList',
       component: () => import('../views/ArticleList.vue'),
     },
-    {
-      path: '/hot/:secondaryRoute?/:tertiaryRoute?',
-      name: 'HotArticleList',
-      component: () => import('../views/ArticleList.vue'),
-    },
-    {
-      path: '/newest/:secondaryRoute?/:tertiaryRoute?',
-      name: 'NewestArticleList',
-      component: () => import('../views/ArticleList.vue'),
-    },
-
     {
       path: '/history',
       name: 'history',

@@ -33,26 +33,43 @@
 </template>
     
 <script setup>
-import { ref } from 'vue'
-
-
-import { getCategories } from '../fake-api/index.js'
-let categories = ref([]);//导航栏分类数据
-let categoriesReady = ref(false);//导航栏分类异步数据是否已经拿到
-//取得categories,更新categoriesReady
-getCategories().then(value => {
-    categoriesReady.value = true;
-    console.log(categories, categoriesReady);
-    categories.value = value.data.categories;
-});
-
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { ref } from 'vue'
+import { getCategories } from '../fake-api/index.js'
 
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
+
+
+let categories = ref([]);//导航栏分类数据
+let categoriesReady = ref(false);//导航栏分类异步数据是否已经拿到
 let secondaryNavIndex = ref(0);
 let tertiaryNavIndex = ref(0);
+
+//取得categories,并更新categoriesReady，并获取初始secondaryNavIndex和tertiaryNavIndex
+getCategories().then(value => {
+    console.log('SubNavBar的回调,取得categories,并更新categoriesReady，并获取初始secondaryNavIndex和tertiaryNavIndex');
+    //取得categories并更新categoriesReady
+    categoriesReady.value = true;
+    categories.value = value.data.categories;
+    //获取初始secondaryNavIndex和tertiaryNavIndex
+    const id = store.state.categoryId;
+    //若id只代表单层分类,tertiaryNavIndex默认为0;
+    if (id <= 9) {
+        secondaryNavIndex.value = id;
+        tertiaryNavIndex.value = 0;
+    }
+    else {//否则id代表两层分类,
+        secondaryNavIndex.value = Math.floor(id / 10);
+        tertiaryNavIndex.value = id % 10;
+    }
+
+
+});
+
+
 
 //二级导航栏的编程式路由导航
 const clickSecondaryNav = (index) => {
@@ -149,8 +166,6 @@ $shadowColor: rgb(0 0 0 / 10%);
         color: $primary;
     }
 }
-
-
 
 $sub-bgColor: #f4f5f5;
 $sub-textColor: #71777c;
