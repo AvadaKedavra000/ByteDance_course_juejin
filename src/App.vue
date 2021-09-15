@@ -7,10 +7,11 @@ import NavBar from './components/NavBar.vue'
 <template>
   <!-- 路由出口 -->
   <!-- 路由匹配到的组件将渲染在这里 -->
-  <router-view v-slot="{ Component }">
-    <component :is="Component" />
-  </router-view>
-  <NavBar />
+    <router-view v-slot="{ Component }" class="router-view">
+      <component :is="Component" />
+    </router-view>
+    <NavBar />
+
 </template>
 
 <style>
@@ -18,8 +19,8 @@ html,
 body {
   height: 100%;
   margin: 0;
+  overflow-y: hidden;
   overflow-x: hidden;
-  overflow-y: scroll;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 #app {
@@ -28,13 +29,26 @@ body {
   text-align: center;
   color: #2c3e50;
 }
-.router-view {
+/* .router-view {
   width: 100%;
   height: auto;
   position: absolute;
   top: 0;
   bottom: 0;
   margin: 0 auto;
+  
+} */
+.router-view{
+  /* padding-bottom:300px; */
   -webkit-overflow-scrolling: touch;
+  /* height: 100%; */
+  /* overflow-y: scroll; */
+  width: 100%;
+  height: 92vh;
+  box-sizing: border-box;
+  /* position: absolute;
+  top: 0;
+  bottom: 0; */
+  /* margin: 0 auto; */
 }
 </style>

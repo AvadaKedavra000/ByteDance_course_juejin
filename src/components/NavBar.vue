@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar van-hairline--top">
+  <div class="nav-bar">
     <ul class="nav-list">
       <li
         v-for="(item,index) in routerLinkList"
@@ -64,7 +64,7 @@ export default {
           return "new"
         }
       }
-      const sortBy=getSortBy(primaryNavIndex.value);
+      const sortBy = getSortBy(primaryNavIndex.value);
       store.commit("setSortBy", sortBy);
 
       //取得分类id并设置store.categoryId
@@ -99,7 +99,7 @@ export default {
           }
           return 0;
         }
-        const id=getCategoryIdFromName(to.params.secondaryRoute,to.params.tertiaryRoute);
+        const id = getCategoryIdFromName(to.params.secondaryRoute, to.params.tertiaryRoute);
         //提交
         store.commit("setCategoryId", id);
       })
@@ -196,10 +196,17 @@ $shadowColor: rgb(0 0 0 / 10%);
 
 /* 使用变量 */
 .nav-bar {
+  // position: sticky;
+  // left: 0;
+  // bottom: 0;
   position: fixed;
-  left: 0;
   bottom: 0;
+  box-sizing: border-box;
+
   width: 100%;
+  height: $NavBarHeight;
+  display: flex;
+  align-items: center;
   padding: 2px 0;
   box-shadow: 0 -2px 6px $shadowColor;
   z-index: 999;

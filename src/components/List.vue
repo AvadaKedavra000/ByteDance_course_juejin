@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="list-box">
         <ul v-if="dataReady" class="list">
             <li class="item" v-for="(item,index) in data" :key="item.article_id">
                 <div class="article-box">
@@ -48,6 +48,7 @@
                 <div class="item-separator"></div>
             </li>
         </ul>
+        <!-- <p id="tip">我也是有底线的</p> -->
     </div>
 </template>
   
@@ -84,87 +85,115 @@ watch([sortBy, categoryId], ([count1, prevCount1], [count2, prevCount2]) => {
     });
 })
 
+//计算每篇文章距今的时间
 const time = (index) => {
     const item = data.value[index];
     //item.article_info.ctime为秒级时间戳
     //计算
-    const ms=(new Date()).getTime()-Number(item.article_info.ctime)*1000;
-    const s=Math.floor(ms/1000);
-    const min=Math.floor(ms/(1000*60));
-    const hour=Math.floor(ms/(1000*60*60));
-    const day=Math.floor(ms/(1000*60*60*24));
-    const month=Math.floor(ms/(1000*60*60*24*30));
-    const year=Math.floor(ms/(1000*60*60*24*30*12));
+    const ms = (new Date()).getTime() - Number(item.article_info.ctime) * 1000;
+    const s = Math.floor(ms / 1000);
+    const min = Math.floor(ms / (1000 * 60));
+    const hour = Math.floor(ms / (1000 * 60 * 60));
+    const day = Math.floor(ms / (1000 * 60 * 60 * 24));
+    const month = Math.floor(ms / (1000 * 60 * 60 * 24 * 30));
+    const year = Math.floor(ms / (1000 * 60 * 60 * 24 * 30 * 12));
     //判断，返回
-    if(year>0){
-        if(year>1){
+    if (year > 0) {
+        if (year > 1) {
             return `${year} years ago`
         }
-        else{
+        else {
             return `1 year ago`
         }
     }
-    if(month>0){
-        if(month>1){
+    if (month > 0) {
+        if (month > 1) {
             return `${month} months ago`
         }
-        else{
+        else {
             return `1 month ago`
         }
     }
-    if(day>0){
-        if(day>1){
+    if (day > 0) {
+        if (day > 1) {
             return `${day} days ago`
         }
-        else{
+        else {
             return `1 day ago`
         }
     }
-    if(hour>0){
-        if(hour>1){
+    if (hour > 0) {
+        if (hour > 1) {
             return `${hour} hours ago`
         }
-        else{
+        else {
             return `1 day ago`
         }
     }
-    if(min>=0){
-        if(min>1){
+    if (min >= 0) {
+        if (min > 1) {
             return `${min} minutes ago`
         }
-        else{
+        else {
             return `1 minute ago`
         }
     }
 }
 
-//滚动事件处理函数
-function scrollHandle() {
-    console.log('滚了');
-    const scrollHeight = document.body.scrollHeight;
-    const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-    const clientHeight = document.body.clientHeight;
 
-    const distance = scrollHeight - scrollTop - clientHeight;
-    if (distance <= 200) {
-        console.log('快到底了', distance);
-        loadMore();
-    }
-}
+
+
+
+// let readyForLoad = true; //默认允许加载一次
+// const loadMore = () => {
+//     if (readyForLoad) {//需要加载才进来，防止重复
+//         readyForLoad = false; //进来了就"锁上"
+//         getArticles(store.state.categoryId, store.state.sortBy).then(a => {
+//             data.value = [...data.value, ...a.data.articles];
+//             readyForLoad = true; //加载完了才"开锁"，允许再次触发
+//             console.log('loadMore完成');
+//             console.log(data.value);
+//         });
+//     }
+// }
+
+
+
+// //滚动事件处理函数
+// function scrollHandle() {
+//     console.log('滚了');
+//     const scrollHeight = document.body.scrollHeight;
+//     const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+//     const clientHeight = document.body.clientHeight;
+
+//     const distance = scrollHeight - scrollTop - clientHeight;
+//     console.log('scrollHeight',scrollHeight,'scrollTop',scrollTop,'clientHeight',clientHeight,'distance',distance);
+//     if (distance <= 400) {
+//         console.log('快到底了', distance);
+//         loadMore();
+//     }
+// }
 
 onMounted(() => {
-    //组件挂载时，添加scroll监听
-    window.addEventListener("scroll", scrollHandle, true);
+    // //组件挂载时，添加scroll监听
+    // window.addEventListener("scroll", scrollHandle, true);
 });
 
 onUnmounted(() => {
-    //组件卸载时，停止监听
-    window.removeEventListener("scroll", scrollHandle, true);
+    // //组件卸载时，停止监听
+    // window.removeEventListener("scroll", scrollHandle, true);
 });
+
+
+let clientHeight=ref(document.body.clientHeight);
+let listBoxHeight=ref(clientHeight.value*0.5+'px');
+
 
 </script>
 
 <style lang="scss" scoped>
+@import "../common/style/mixin";
+
 $topFontSize: 14px;
 $topAuthorColor: #4e5969;
 $topTimeColor: #86909c;
@@ -181,6 +210,16 @@ $titleTextColor: #1d2129;
 
 $briefFontSize: 14px;
 $briefTextColor: #4e5969;
+
+.list-box::-webkit-scrollbar {
+        display: none;
+    }
+.list-box{
+    height: $ListHeight;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
 
 .list {
     padding: 0px;
@@ -228,6 +267,8 @@ p {
         margin-bottom: 14px;
         .article-content-left {
             height: 88px;
+            width:0;//解决有时候简介内容把右边图片撑到右边脱离父元素的问题
+            flex-grow:1;//解决有时候简介内容把右边图片撑到右边脱离父元素的问题
             .article-brief {
                 font-size: $briefFontSize;
                 color: $briefTextColor;

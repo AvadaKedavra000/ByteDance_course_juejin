@@ -1,34 +1,41 @@
 <template>
-    <!-- 二级导航 -->
-    <!-- 为了保证取得异步数据后再渲染，采用v-if="categoriesReady" -->
-    <div class="nav-bar">
-        <ul class="nav-list" v-if="categoriesReady">
-            <li
-                v-for="(item,index) in categories"
-                :key="item.category_id"
-                class="nav-list-item"
-                @click="clickSecondaryNav(index)"
-                :class="{ active: secondaryNavIndex === index }"
-            >
-                <span>{{ item.category_name }}</span>
-            </li>
-        </ul>
-    </div>
-    <!-- 三级导航 -->
-    <div class="sub-nav-bar" v-if="secondaryNavIndex != 0 && categoriesReady">
-        <ul class="sub-nav-list">
-            <li
-                v-for="(item,index) in categories[secondaryNavIndex].children"
-                :key="item.category_id"
-                class="sub-nav-list-item"
-                @click="clickTertiaryNav(index)"
-            >
-                <span
-                    class="sub-tag"
-                    :class="{ 'sub-active': tertiaryNavIndex === index }"
-                >{{ item.category_name }}</span>
-            </li>
-        </ul>
+    <div class="nav">
+        <!-- 二级导航 -->
+        <!-- 为了保证取得异步数据后再渲染，采用v-if="categoriesReady" -->
+        <div class="nav-bar">
+            <ul class="nav-list" v-if="categoriesReady">
+                <li
+                    v-for="(item,index) in categories"
+                    :key="item.category_id"
+                    class="nav-list-item"
+                    @click="clickSecondaryNav(index)"
+                    :class="{ active: secondaryNavIndex === index }"
+                >
+                    <span>{{ item.category_name }}</span>
+                </li>
+            </ul>
+        </div>
+        <!-- 三级导航 -->
+        <div class="sub-nav-bar" v-if="categoriesReady">
+            <ul v-if="secondaryNavIndex != 0" class="sub-nav-list">
+                <li
+                    v-for="(item,index) in categories[secondaryNavIndex].children"
+                    :key="item.category_id"
+                    class="sub-nav-list-item"
+                    @click="clickTertiaryNav(index)"
+                >
+                    <span
+                        class="sub-tag"
+                        :class="{ 'sub-active': tertiaryNavIndex === index }"
+                    >{{ item.category_name }}</span>
+                </li>
+            </ul>
+            <ul v-else class="sub-nav-list">
+                <li class="sub-nav-list-item">
+                    <span class="sub-tag sub-active">推荐</span>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
     
@@ -134,16 +141,15 @@ $textColor: #71777c;
 $fontSize: 1rem;
 $shadowColor: rgb(0 0 0 / 10%);
 /* 使用变量 */
+.nav {
+    box-sizing: border-box;
+}
 .nav-bar {
-    position: sticky;
-    //display:flex;
-    left: 0;
-    top: 0;
     width: 100%;
-    height: 2.5rem;
+    height: $SubBarHeight * 0.5;
     padding: 2px 0;
     box-shadow: 0 -2px 6px $shadowColor;
-    z-index: 999;
+    //z-index: 999;
 
     background-color: $bgColor;
     color: $textColor;
@@ -171,35 +177,37 @@ $sub-bgColor: #f4f5f5;
 $sub-textColor: #71777c;
 $sub-fontSize: 0.8rem;
 .sub-nav-bar {
-    position: sticky;
-    //display:flex;
-    left: 0;
-    top: 0;
     width: 100%;
-    height: 2.5rem;
+    height: $SubBarHeight * 0.5;
     padding: 2px 0;
     box-shadow: 0 -2px 6px $shadowColor;
     z-index: 999;
     background-color: $sub-bgColor;
     color: $sub-textColor;
     font-size: $sub-fontSize;
+    .sub-nav-list::-webkit-scrollbar {
+        display: none;
+    }
     .sub-nav-list {
         width: 100%;
         height: 100%;
-        padding: 0;
+        padding: 0 20px;
         margin: 0;
         display: flex;
-        justify-content: space-between;
+        overflow-x: scroll;
+
+        // justify-content: flex-start;
         align-items: center;
         .sub-nav-list-item {
             display: flex;
-            flex: 1;
+            margin-right: 2rem;
             justify-content: center;
         }
         .sub-tag {
             background-color: #fff;
             border: 6px solid #fff;
             border-radius: 20px;
+            white-space: nowrap;
         }
         .sub-active {
             background-color: $primary;

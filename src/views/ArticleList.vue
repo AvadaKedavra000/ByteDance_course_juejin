@@ -1,6 +1,6 @@
 <template>
   <SubNavBar />
-
+<!-- 
   <ul>
     <li>route中获取:</li>
     <li>一级路由:{{ route.params.primaryRoute }}</li>
@@ -13,7 +13,7 @@
     <li>sortBy:{{ store.state.sortBy }}</li>
     <li>categoryId:{{ store.state.categoryId }}</li>
   </ul>
-  <h2>内容区域~~~~~~~~~~~~~</h2>
+  <h2>内容区域~~~~~~~~~~~~~</h2> -->
   <List />
 </template>
 
@@ -84,5 +84,8 @@ ul li {
   list-style: none;
   padding: 0px;
   margin: 0px;
+}
+.ArticleList{
+  margin-bottom:60px;
 }
 </style>
