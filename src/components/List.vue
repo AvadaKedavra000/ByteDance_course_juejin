@@ -48,26 +48,39 @@
                 <div class="item-separator"></div>
             </li>
         </ul>
-        <!-- <p id="tip">我也是有底线的</p> -->
+        <Observer :handle-intersect="getData" root-selector=".list" />
     </div>
 </template>
   
 
 <script setup>
 console.log('List setup啦')
-import { ref, onMounted, onUnmounted, reactive, computed, watch } from 'vue'
+import { ref, onMounted, onUnmounted, reactive, computed, watch, nextTick } from 'vue'
 import { getArticles } from '../fake-api/index.js'
 import { useStore } from 'vuex'
+import Observer from './Observer.vue'
 const store = useStore();
 
 let data = ref([]);
 let dataReady = ref(false);
-
-getArticles(store.state.categoryId, store.state.sortBy).then(a => {
+//初识获取文章数据
+getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.state.limit).then(a => {
     data.value = a.data.articles;
     dataReady.value = true;
-    console.log('List初始数据渲染好啦', a.data.articles)
+    store.commit("updateOffset");
+    console.log('List初始数据渲染好啦', a.data.articles);
+
 });
+//无限滚动:文章列表触底时触发的回调
+const getData = () => {
+    console.log("无限滚动回调");
+    getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.state.limit).then(a => {
+        const newData=a.data.articles;
+        data.value = [...data.value,...newData];
+        store.commit("updateOffset");
+        console.log('新数据渲染好啦', newData);
+    });
+}
 
 
 //用computed和watch间接监听store.state,以及时刷新页面
@@ -79,7 +92,8 @@ const categoryId = computed({
 });
 watch([sortBy, categoryId], ([count1, prevCount1], [count2, prevCount2]) => {
     console.log('路由参数改变啦');
-    getArticles(store.state.categoryId, store.state.sortBy).then(a => {
+    store.commit("resetOffset");
+    getArticles(store.state.categoryId,store.state.sortBy,store.state.offset,store.state.limit).then(a => {
         data.value = a.data.articles;
         console.log('刷新数据', a.data.articles);
     });
@@ -143,52 +157,6 @@ const time = (index) => {
 
 
 
-
-// let readyForLoad = true; //默认允许加载一次
-// const loadMore = () => {
-//     if (readyForLoad) {//需要加载才进来，防止重复
-//         readyForLoad = false; //进来了就"锁上"
-//         getArticles(store.state.categoryId, store.state.sortBy).then(a => {
-//             data.value = [...data.value, ...a.data.articles];
-//             readyForLoad = true; //加载完了才"开锁"，允许再次触发
-//             console.log('loadMore完成');
-//             console.log(data.value);
-//         });
-//     }
-// }
-
-
-
-// //滚动事件处理函数
-// function scrollHandle() {
-//     console.log('滚了');
-//     const scrollHeight = document.body.scrollHeight;
-//     const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-//     const clientHeight = document.body.clientHeight;
-
-//     const distance = scrollHeight - scrollTop - clientHeight;
-//     console.log('scrollHeight',scrollHeight,'scrollTop',scrollTop,'clientHeight',clientHeight,'distance',distance);
-//     if (distance <= 400) {
-//         console.log('快到底了', distance);
-//         loadMore();
-//     }
-// }
-
-onMounted(() => {
-    // //组件挂载时，添加scroll监听
-    // window.addEventListener("scroll", scrollHandle, true);
-});
-
-onUnmounted(() => {
-    // //组件卸载时，停止监听
-    // window.removeEventListener("scroll", scrollHandle, true);
-});
-
-
-let clientHeight=ref(document.body.clientHeight);
-let listBoxHeight=ref(clientHeight.value*0.5+'px');
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -212,9 +180,9 @@ $briefFontSize: 14px;
 $briefTextColor: #4e5969;
 
 .list-box::-webkit-scrollbar {
-        display: none;
-    }
-.list-box{
+    display: none;
+}
+.list-box {
     height: $ListHeight;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -267,8 +235,8 @@ p {
         margin-bottom: 14px;
         .article-content-left {
             height: 88px;
-            width:0;//解决有时候简介内容把右边图片撑到右边脱离父元素的问题
-            flex-grow:1;//解决有时候简介内容把右边图片撑到右边脱离父元素的问题
+            width: 0; //解决有时候简介内容把右边图片撑到右边脱离父元素的问题
+            flex-grow: 1; //解决有时候简介内容把右边图片撑到右边脱离父元素的问题
             .article-brief {
                 font-size: $briefFontSize;
                 color: $briefTextColor;

@@ -10,5 +10,7 @@ export default {
     secondaryNavTitle:"recommended",
     tertiaryNavTitle:"全部",
     sortBy:"",//文章列表排序 'hot' 代表热门， 'new' 代表最新
-    categoryId:0//文章分类Id
+    categoryId:0,//文章分类Id
+    offset:0,
+    limit:20,
 }

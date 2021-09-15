@@ -1,3 +1,5 @@
+import { storeKey } from "vuex";
+
 export default {
     changePrimaryNavTitle(state,title){
         state.primaryNavTitle=title;
@@ -13,5 +15,11 @@ export default {
     },
     setCategoryId(state,value){
         state.categoryId=value;
-    }
+    },
+    updateOffset(state){
+        state.offset+=state.limit;
+    },
+    resetOffset(state){
+        state.offset=0;
+    },
   }
