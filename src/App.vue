@@ -1,7 +1,12 @@
 <script setup>
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
+
+import { useRouter } from 'vue-router'
 import NavBar from './components/NavBar.vue'
+
+const router=useRouter();
+
 </script>
 
 <template>
@@ -44,7 +49,7 @@ body {
   /* height: 100%; */
   /* overflow-y: scroll; */
   width: 100%;
-  height: 92vh;
+  /* height: 92vh; */
   box-sizing: border-box;
   /* position: absolute;
   top: 0;

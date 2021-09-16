@@ -1,7 +1,7 @@
 <template>
-    <div class="list-box">
+    <div class="list-box" >
         <ul v-if="dataReady" class="list">
-            <li class="item" v-for="(item,index) in data" :key="item.article_id">
+            <li class="item" v-for="(item,index) in data" :key="item.article_id" @click="clickArticle(item)">
                 <div class="article-box">
                     <div class="article-top">
                         <div class="article-author">{{ item.author_user_info.user_name }}</div>
@@ -48,37 +48,53 @@
                 <div class="item-separator"></div>
             </li>
         </ul>
-        <Observer :handle-intersect="getData" root-selector=".list" />
+        <!-- <ListItem :data="data" v-if="dataReady" class="ListItem"/> -->
+        <Observer :handle-intersect="getData" root-selector=".ListItem" />
     </div>
 </template>
   
 
 <script setup>
 console.log('List setup啦')
-import { ref, onMounted, onUnmounted, reactive, computed, watch, nextTick } from 'vue'
+import { ref, toRefs,onMounted, onUnmounted, reactive, computed, watch, nextTick } from 'vue'
 import { getArticles } from '../fake-api/index.js'
+import {useRouter} from 'vue-router'
 import { useStore } from 'vuex'
 import Observer from './Observer.vue'
+import ListItem from './ListItem.vue'
 const store = useStore();
+const router=useRouter();
 
 let data = ref([]);
 let dataReady = ref(false);
 //初识获取文章数据
 getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.state.limit).then(a => {
+    console.log(data.value);
+    console.log(dataReady.value);
     data.value = a.data.articles;
     dataReady.value = true;
     store.commit("updateOffset");
-    console.log('List初始数据渲染好啦', a.data.articles);
-
+    console.log('List初始数据渲染好啦', data.value);
 });
+
 //无限滚动:文章列表触底时触发的回调
 const getData = () => {
     console.log("无限滚动回调");
     getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.state.limit).then(a => {
         const newData=a.data.articles;
+        console.log('前',data.value)
         data.value = [...data.value,...newData];
         store.commit("updateOffset");
         console.log('新数据渲染好啦', newData);
+        console.log('更新后的data.value',data.value);
+
+        // const newData=a.data.articles;
+        // console.log('前',data.value);
+        // console.log(newData);
+        // data.value = [...data.value,...newData];
+        // store.commit("updateOffset");
+        // console.log('新数据渲染好啦', newData);
+        // console.log('更新后的data.value',data.value);
     });
 }
 
@@ -154,6 +170,21 @@ const time = (index) => {
     }
 }
 
+
+
+
+//点击跳转
+const clickArticle=(item)=>{
+    const theItem=toRefs(item);
+    console.log('toRefs(item)',theItem);
+    console.log(theItem.article_id.value);
+    router.push({
+        name:'ArticleDetails',
+        params:{
+           article_id:theItem.article_id.value
+        }
+    })
+}
 
 
 

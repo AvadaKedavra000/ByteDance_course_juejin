@@ -19,7 +19,12 @@ const router = createRouter({
       path: '/history',
       name: 'history',
       component: () => import('../views/History.vue'),
-    }
+    },
+    {
+      path: '/:article_id',
+      name: 'ArticleDetails',
+      component: () => import('../views/ArticleDetails.vue'),
+    },
   ]
 })
 //暴露路由器

@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar">
+  <div class="nav-bar" v-show="isShow">
     <ul class="nav-list">
       <li
         v-for="(item,index) in routerLinkList"
@@ -24,87 +24,97 @@ import { getCategories } from '../fake-api/index'
 export default {
   setup() {
     let primaryNavIndex = ref(0);
+    let isShow = ref(true);//是否展示NavBar导航栏
+    console.log('初始Index', primaryNavIndex.value);
     const router = useRouter();
     const store = useStore();
 
     //全局路由守卫
     router.beforeEach((to, from) => {
       console.log('NavBar中的路由守卫被触发了');
-      console.log('to.name', to.name);
-      console.log('to.params', to.params);
-      console.log('to.params.primaryRoute', to.params.primaryRoute);
+        console.log('to.name', to.name);
+        console.log('to.params', to.params);
+        console.log('to.params.primaryRoute', to.params.primaryRoute);
 
-
-      //取得primaryNavIndex并赋值
-      const getPrimaryNavIndex = () => {
-        if (to.name === 'history') {
-          return 2;
-        }
-        else if (to.name === 'origin') {
-          return 0;
-        }
-        else if (to.name === 'ArticleList') {
-          if (to.params.primaryRoute === "hot") {
+      if (to.name === "ArticleDetails") {//若是文章详情页，不需要NavBar导航栏
+        isShow.value = false;
+        return true;
+      }
+      else {
+        isShow.value = true;
+        //取得primaryNavIndex并赋值
+        const getPrimaryNavIndex = () => {
+          if (to.name === 'history') {
+            return 2;
+          }
+          else if (to.name === 'origin') {
             return 0;
           }
-          else if (to.params.primaryRoute === "new") {
-            return 1;
+          else if (to.name === 'ArticleList') {
+            if (to.params.primaryRoute === "hot") {
+              return 0;
+            }
+            else if (to.params.primaryRoute === "new") {
+              return 1;
+            }
           }
         }
-      }
-      primaryNavIndex.value = getPrimaryNavIndex();
+        primaryNavIndex.value = getPrimaryNavIndex();
+        console.log('后来Index', primaryNavIndex.value);
 
-      //设置store.sortBy
-      const getSortBy = (Index) => {
-        let sortBy = "";
-        if (Index === 0) {
-          return "hot";
+        //设置store.sortBy
+        const getSortBy = (Index) => {
+          let sortBy = "";
+          if (Index === 0) {
+            return "hot";
+          }
+          else if (Index === 1) {
+            return "new"
+          }
         }
-        else if (Index === 1) {
-          return "new"
-        }
-      }
-      const sortBy = getSortBy(primaryNavIndex.value);
-      store.commit("setSortBy", sortBy);
+        const sortBy = getSortBy(primaryNavIndex.value);
+        store.commit("setSortBy", sortBy);
 
-      //取得分类id并设置store.categoryId
-      getCategories().then(res => {
-        const categories = res.data.categories;
-        console.log(categories);
-        //通过分类名称获取分类id
-        const getCategoryIdFromName = (name1, name2) => {
-          //若name2不为空,查找两层循环
-          if (typeof name2 == 'string' && name2.length > 0) {
-            for (const first of categories) {
-              if (name1 === first.category_name) {
-                if (name2 === "全部") {
-                  return first.category_id;
-                }
-                else {
-                  for (const second of first.children) {
-                    if (name2 === second.category_name) {
-                      return second.category_id
+        //取得分类id并设置store.categoryId
+        getCategories().then(res => {
+          const categories = res.data.categories;
+          console.log(categories);
+          //通过分类名称获取分类id
+          const getCategoryIdFromName = (name1, name2) => {
+            //若name2不为空,查找两层循环
+            if (typeof name2 == 'string' && name2.length > 0) {
+              for (const first of categories) {
+                if (name1 === first.category_name) {
+                  if (name2 === "全部") {
+                    return first.category_id;
+                  }
+                  else {
+                    for (const second of first.children) {
+                      if (name2 === second.category_name) {
+                        return second.category_id
+                      }
                     }
                   }
                 }
               }
             }
-          }
-          else {//否则只用查找一层循环
-            for (const first of categories) {
-              if (name1 === first.category_name) {
-                return first.category_id
+            else {//否则只用查找一层循环
+              for (const first of categories) {
+                if (name1 === first.category_name) {
+                  return first.category_id
+                }
               }
             }
+            return 0;
           }
-          return 0;
-        }
-        const id = getCategoryIdFromName(to.params.secondaryRoute, to.params.tertiaryRoute);
-        //提交
-        store.commit("setCategoryId", id);
-      })
+          const id = getCategoryIdFromName(to.params.secondaryRoute, to.params.tertiaryRoute);
+          //提交
+          store.commit("setCategoryId", id);
+        })
 
-      return true
+        return true
+      }
+
     })
 
 
@@ -177,6 +187,7 @@ export default {
 
     }
     return {
+      isShow,
       primaryNavIndex,
       routerLinkList,
       clickPrimaryNav
