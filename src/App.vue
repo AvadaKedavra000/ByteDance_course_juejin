@@ -4,12 +4,13 @@
 
 import { useRouter } from 'vue-router'
 import NavBar from './components/NavBar.vue'
-
+import Top from './components/Top.vue'
 const router=useRouter();
 
 </script>
 
 <template>
+  <Top />
   <!-- 路由出口 -->
   <!-- 路由匹配到的组件将渲染在这里 -->
     <router-view v-slot="{ Component }" class="router-view">

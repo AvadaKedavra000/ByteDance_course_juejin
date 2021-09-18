@@ -28,19 +28,37 @@
         <div class="content" v-html="article_content"></div>
         <div class="comment">
             <ul class="comment-list">
-                <CommentItem 
-                            v-for="first in comment"
-                            :key="first.comment_id"
-                            :avatar_large="first.user_info.avatar_large"
-                            :user_name="first.user_info.user_name"
-                            :level="first.user_info.level"
-                            :description="first.user_info.job_title"
-                            :ctime="first.comment_info.ctime"
-                            :comment_content="first.comment_info.comment_content"
-                            :digg_count="first.comment_info.digg_count"
-                            :reply_count="0"
-                            />
+                <div v-for="first in comment" :key="first.comment_id" class="comment-item">
+                    <CommentItem
+                        :avatar_large="first.user_info.avatar_large"
+                        :user_name="first.user_info.user_name"
+                        :level="first.user_info.level"
+                        :description="first.user_info.job_title"
+                        :ctime="first.comment_info.ctime"
+                        :comment_content="first.comment_info.comment_content"
+                        :digg_count="first.comment_info.digg_count"
+                        :reply_count="0"
+                    />
 
+                    <div v-if="first.comment_info.reply_count > 0" class="sub-comment-list">
+                        <div
+                            class="sub-comment-list-item"
+                            v-for="second in first.reply_infos"
+                            :key="second.reply_id"
+                        >
+                            <CommentItem
+                                :avatar_large="second.user_info.avatar_large"
+                                :user_name="second.user_info.user_name"
+                                :level="second.user_info.level"
+                                :description="second.user_info.job_title"
+                                :ctime="second.reply_info.ctime"
+                                :comment_content="second.reply_info.reply_content"
+                                :digg_count="second.reply_info.digg_count"
+                                :reply_count="0"
+                            />
+                        </div>
+                    </div>
+                </div>
 
                 <!-- <li 
                 v-for="item in comment" 
@@ -93,7 +111,7 @@
                             />
                         </div>
                     </div>
-                </li> -->
+                </li>-->
             </ul>
         </div>
         <Observer :handle-intersect="getData" root-selector=".comment" />
@@ -185,16 +203,16 @@ getArticleById(article_id).then((res) => {
 
 
 //文章评论数据
-let comment=ref([]);
-console.log('原来',comment.value);
+let comment = ref([]);
+console.log('原来', comment.value);
 
 
 
 //取文章评论
 getCommentsByArticleId(article_id).then((res) => {
     console.log('评论内容', res.data.comments);
-    comment.value=res.data.comments;
-    console.log('后来',comment.value);
+    comment.value = res.data.comments;
+    console.log('后来', comment.value);
 })
 
 const getData = () => {
@@ -323,7 +341,8 @@ $timeAndActionColor: #86909c;
     .comment-list {
         .comment-item {
             display: flex;
-            border-bottom: solid 1px rgb(229, 230, 235);
+            flex-direction: column;
+
             .comment-avater {
                 width: $avatarSize;
                 height: 100%;
@@ -371,12 +390,20 @@ $timeAndActionColor: #86909c;
                         margin-right: 17px;
                     }
                 }
-                .sub-comment-list{
-                    margin-bottom:15px;
-                    padding:0 12px;
-                    background-color: #f7f8fa;
+            }
+            .sub-comment-list {
+                box-sizing: border-box;
+                margin-bottom: 15px;
+                margin-left: 48px;
+                padding: 0 12px;
+                background-color: #f7f8fa;
+                .sub-comment-list-item:not(:last-child) {
+                    border-bottom: solid 1px rgb(229, 230, 235);
                 }
             }
+        }
+        .comment-item:not(:last-child){
+            border-bottom: solid 1px rgb(229, 230, 235);
         }
     }
 }
