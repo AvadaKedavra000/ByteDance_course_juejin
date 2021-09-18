@@ -1,11 +1,17 @@
+<!--debug!!!!!!!!!!!!!!!!!!!!!!!-->
 <template>
     <ul class="list">
-        <li class="item" v-for="(item,index) in data" :key="item.article_id">
+        <li
+            class="item"
+            v-for="(item,index) in data"
+            :key="item.article_id"
+            @click="clickArticle(item)"
+        >
             <div class="article-box">
                 <div class="article-top">
                     <div class="article-author">{{ item.author_user_info.user_name }}</div>
                     <span class="separator">|</span>
-                    <div class="article-time">{{ time(index) }}</div>
+                    <div class="article-time">{{time(index)}}</div>
                 </div>
                 <div class="article-title">
                     <p>{{ item.article_info.title }}</p>
@@ -46,85 +52,88 @@
     </ul>
 </template>
 
+<script setup>
+import { unref, ref, isRef, watchEffect, toRefs } from 'vue'
+import{useRouter}from'vue-router'
+const router=useRouter();
 
-<script>
-import { ref, watchEffect,toRefs } from 'vue'
-export default {
-    props: {
-        data: {
-            type: Object,
-            required: true,
+const props = defineProps({
+    data: {
+        type:Object,
+        required:true
+    }
+});
+
+//计算每篇文章距今的时间
+const time = (index) => {
+    const item = props.data[index];
+    //item.article_info.ctime为秒级时间戳
+    //计算
+    const ms = (new Date()).getTime() - Number(item.article_info.ctime) * 1000;
+    const s = Math.floor(ms / 1000);
+    const min = Math.floor(ms / (1000 * 60));
+    const hour = Math.floor(ms / (1000 * 60 * 60));
+    const day = Math.floor(ms / (1000 * 60 * 60 * 24));
+    const month = Math.floor(ms / (1000 * 60 * 60 * 24 * 30));
+    const year = Math.floor(ms / (1000 * 60 * 60 * 24 * 30 * 12));
+    //判断，返回
+    if (year > 0) {
+        if (year > 1) {
+            return `${year} years ago`
         }
-    },
-    //inheritAttrs: false,
-    setup(props) {
-        watchEffect(() => {
-            console.log(`data is: ` + props.data);
-            //data={props};
-        })
-        let {data}=props;
-        //计算每篇文章距今的时间
-        const time = (index) => {
-            const item = data[index];
-            //item.article_info.ctime为秒级时间戳
-            //计算
-            const ms = (new Date()).getTime() - Number(item.article_info.ctime) * 1000;
-            const s = Math.floor(ms / 1000);
-            const min = Math.floor(ms / (1000 * 60));
-            const hour = Math.floor(ms / (1000 * 60 * 60));
-            const day = Math.floor(ms / (1000 * 60 * 60 * 24));
-            const month = Math.floor(ms / (1000 * 60 * 60 * 24 * 30));
-            const year = Math.floor(ms / (1000 * 60 * 60 * 24 * 30 * 12));
-            //判断，返回
-            if (year > 0) {
-                if (year > 1) {
-                    return `${year} years ago`
-                }
-                else {
-                    return `1 year ago`
-                }
-            }
-            if (month > 0) {
-                if (month > 1) {
-                    return `${month} months ago`
-                }
-                else {
-                    return `1 month ago`
-                }
-            }
-            if (day > 0) {
-                if (day > 1) {
-                    return `${day} days ago`
-                }
-                else {
-                    return `1 day ago`
-                }
-            }
-            if (hour > 0) {
-                if (hour > 1) {
-                    return `${hour} hours ago`
-                }
-                else {
-                    return `1 day ago`
-                }
-            }
-            if (min >= 0) {
-                if (min > 1) {
-                    return `${min} minutes ago`
-                }
-                else {
-                    return `1 minute ago`
-                }
-            }
+        else {
+            return `1 year ago`
         }
-        
-        return {
-            data,
-            time,
+    }
+    if (month > 0) {
+        if (month > 1) {
+            return `${month} months ago`
+        }
+        else {
+            return `1 month ago`
+        }
+    }
+    if (day > 0) {
+        if (day > 1) {
+            return `${day} days ago`
+        }
+        else {
+            return `1 day ago`
+        }
+    }
+    if (hour > 0) {
+        if (hour > 1) {
+            return `${hour} hours ago`
+        }
+        else {
+            return `1 day ago`
+        }
+    }
+    if (min >= 0) {
+        if (min > 1) {
+            return `${min} minutes ago`
+        }
+        else {
+            return `1 minute ago`
         }
     }
 }
+
+//点击文章时
+const clickArticle=(item)=>{
+    //路由跳转，展示其详细信息
+    router.push({
+        name:'ArticleDetails',
+        params:{
+           article_id:item.article_id
+        }
+    })
+    //添加历史记录
+    //待完善！！！！！！！！！！！！！！！！！！！！！！
+}
+
 </script>
+
 
 <style lang="scss" scoped>
 @import "../common/style/mixin";

@@ -1,6 +1,8 @@
 <template>
     <div class="list-box" >
-        <ul v-if="dataReady" class="list">
+        <!-- <ul v-if="dataReady" class="list"> -->
+
+            <!-- <ul  class="list">
             <li class="item" v-for="(item,index) in data" :key="item.article_id" @click="clickArticle(item)">
                 <div class="article-box">
                     <div class="article-top">
@@ -47,8 +49,10 @@
                 </div>
                 <div class="item-separator"></div>
             </li>
-        </ul>
-        <!-- <ListItem :data="data" v-if="dataReady" class="ListItem"/> -->
+        </ul> -->
+        
+        <ListItem :data="data" v-if="dataReady" class="ListItem"/>
+        
         <Observer :handle-intersect="getData" root-selector=".ListItem" />
     </div>
 </template>
@@ -62,40 +66,52 @@ import {useRouter} from 'vue-router'
 import { useStore } from 'vuex'
 import Observer from './Observer.vue'
 import ListItem from './ListItem.vue'
+
 const store = useStore();
 const router=useRouter();
 
+let has_more=ref(true);//是否还有更多文章
 let data = ref([]);
-let dataReady = ref(false);
-//初识获取文章数据
+
+let dataReady = ref(false);//数据准备好了就传递给子组件<ListItem/>
+
+//初始获取文章数据
 getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.state.limit).then(a => {
-    console.log(data.value);
-    console.log(dataReady.value);
+    console.log('@@@@@@@@@@@@@@初始获取文章数据');
+    has_more.value=a.has_more;
+
     data.value = a.data.articles;
+
     dataReady.value = true;
-    store.commit("updateOffset");
+
     console.log('List初始数据渲染好啦', data.value);
 });
 
 //无限滚动:文章列表触底时触发的回调
 const getData = () => {
-    console.log("无限滚动回调");
+    if(!has_more.value){
+        return;
+    }
+
+    console.log("@@@@@@无限滚动回调");
+    store.commit("updateOffset");
     getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.state.limit).then(a => {
+        //非分离组件可运行
+        // has_more.value=a.has_more;
+        // const newData=a.data.articles;
+        // data.value = [...data.value,...newData];
+
+        //debuggggggggggggggggg
+        has_more.value=a.has_more;
         const newData=a.data.articles;
-        console.log('前',data.value)
+        console.log('前',data.value);
+        console.log(newData);
         data.value = [...data.value,...newData];
         store.commit("updateOffset");
         console.log('新数据渲染好啦', newData);
         console.log('更新后的data.value',data.value);
-
-        // const newData=a.data.articles;
-        // console.log('前',data.value);
-        // console.log(newData);
-        // data.value = [...data.value,...newData];
-        // store.commit("updateOffset");
-        // console.log('新数据渲染好啦', newData);
-        // console.log('更新后的data.value',data.value);
     });
+
 }
 
 
@@ -115,76 +131,76 @@ watch([sortBy, categoryId], ([count1, prevCount1], [count2, prevCount2]) => {
     });
 })
 
-//计算每篇文章距今的时间
-const time = (index) => {
-    const item = data.value[index];
-    //item.article_info.ctime为秒级时间戳
-    //计算
-    const ms = (new Date()).getTime() - Number(item.article_info.ctime) * 1000;
-    const s = Math.floor(ms / 1000);
-    const min = Math.floor(ms / (1000 * 60));
-    const hour = Math.floor(ms / (1000 * 60 * 60));
-    const day = Math.floor(ms / (1000 * 60 * 60 * 24));
-    const month = Math.floor(ms / (1000 * 60 * 60 * 24 * 30));
-    const year = Math.floor(ms / (1000 * 60 * 60 * 24 * 30 * 12));
-    //判断，返回
-    if (year > 0) {
-        if (year > 1) {
-            return `${year} years ago`
-        }
-        else {
-            return `1 year ago`
-        }
-    }
-    if (month > 0) {
-        if (month > 1) {
-            return `${month} months ago`
-        }
-        else {
-            return `1 month ago`
-        }
-    }
-    if (day > 0) {
-        if (day > 1) {
-            return `${day} days ago`
-        }
-        else {
-            return `1 day ago`
-        }
-    }
-    if (hour > 0) {
-        if (hour > 1) {
-            return `${hour} hours ago`
-        }
-        else {
-            return `1 day ago`
-        }
-    }
-    if (min >= 0) {
-        if (min > 1) {
-            return `${min} minutes ago`
-        }
-        else {
-            return `1 minute ago`
-        }
-    }
-}
+// //计算每篇文章距今的时间
+// const time = (index) => {
+//     const item = data.value[index];
+//     //item.article_info.ctime为秒级时间戳
+//     //计算
+//     const ms = (new Date()).getTime() - Number(item.article_info.ctime) * 1000;
+//     const s = Math.floor(ms / 1000);
+//     const min = Math.floor(ms / (1000 * 60));
+//     const hour = Math.floor(ms / (1000 * 60 * 60));
+//     const day = Math.floor(ms / (1000 * 60 * 60 * 24));
+//     const month = Math.floor(ms / (1000 * 60 * 60 * 24 * 30));
+//     const year = Math.floor(ms / (1000 * 60 * 60 * 24 * 30 * 12));
+//     //判断，返回
+//     if (year > 0) {
+//         if (year > 1) {
+//             return `${year} years ago`
+//         }
+//         else {
+//             return `1 year ago`
+//         }
+//     }
+//     if (month > 0) {
+//         if (month > 1) {
+//             return `${month} months ago`
+//         }
+//         else {
+//             return `1 month ago`
+//         }
+//     }
+//     if (day > 0) {
+//         if (day > 1) {
+//             return `${day} days ago`
+//         }
+//         else {
+//             return `1 day ago`
+//         }
+//     }
+//     if (hour > 0) {
+//         if (hour > 1) {
+//             return `${hour} hours ago`
+//         }
+//         else {
+//             return `1 day ago`
+//         }
+//     }
+//     if (min >= 0) {
+//         if (min > 1) {
+//             return `${min} minutes ago`
+//         }
+//         else {
+//             return `1 minute ago`
+//         }
+//     }
+// }
 
 
 
 
-//点击跳转
-const clickArticle=(item)=>{
-    const theItem=toRefs(item);
-    console.log('toRefs(item)',theItem);
-    console.log(theItem.article_id.value);
-    router.push({
-        name:'ArticleDetails',
-        params:{
-           article_id:theItem.article_id.value
-        }
-    })
-}
+// //点击跳转
+// const clickArticle=(item)=>{
+//     const theItem=toRefs(item);
+//     console.log('toRefs(item)',theItem);
+//     console.log(theItem.article_id.value);
+//     router.push({
+//         name:'ArticleDetails',
+//         params:{
+//            article_id:theItem.article_id.value
+//         }
+//     })
+// }
 
 
 
