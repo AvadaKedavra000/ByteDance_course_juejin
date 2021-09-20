@@ -1,7 +1,7 @@
 <template>
   <div class="top">
     <div class="logo">
-        <embed src="../src/assets/logo.svg" alt="掘金"/>
+        <img src="/src/assets/logo.png" alt="掘金"/>
     </div>
   </div>
 </template>
