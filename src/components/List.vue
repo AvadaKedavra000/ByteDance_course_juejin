@@ -59,7 +59,7 @@
   
 
 <script setup>
-console.log('List setup啦')
+// console.log('List setup啦')
 import { ref, toRefs,onMounted, onUnmounted, reactive, computed, watch, nextTick } from 'vue'
 import { getArticles } from '../fake-api/index.js'
 import {useRouter} from 'vue-router'
@@ -77,14 +77,14 @@ let data = ref([]);
 
 //初始获取文章数据
 getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.state.limit).then(a => {
-    console.log('@@@@@@@@@@@@@@初始获取文章数据');
+    // console.log('@@@@@@@@@@@@@@初始获取文章数据');
     has_more.value=a.has_more;
 
     data.value = a.data.articles;
 
     // dataReady.value = true;
 
-    console.log('List初始数据渲染好啦', data.value);
+    // console.log('List初始数据渲染好啦', data.value);
 });
 
 //无限滚动:文章列表触底时触发的回调
@@ -111,11 +111,11 @@ const categoryId = computed({
     get: () => store.state.categoryId
 });
 watch([sortBy, categoryId], ([count1, prevCount1], [count2, prevCount2]) => {
-    console.log('路由参数改变啦');
+    // console.log('路由参数改变啦');
     store.commit("resetOffset");
     getArticles(store.state.categoryId,store.state.sortBy,store.state.offset,store.state.limit).then(a => {
         data.value = a.data.articles;
-        console.log('刷新数据', a.data.articles);
+        // console.log('刷新数据', a.data.articles);
     });
 })
 

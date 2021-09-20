@@ -57,7 +57,7 @@ let tertiaryNavIndex = ref(0);
 
 //取得categories,并更新categoriesReady，并获取初始secondaryNavIndex和tertiaryNavIndex
 getCategories().then(value => {
-    console.log('SubNavBar的回调,取得categories,并更新categoriesReady，并获取初始secondaryNavIndex和tertiaryNavIndex');
+    // console.log('SubNavBar的回调,取得categories,并更新categoriesReady，并获取初始secondaryNavIndex和tertiaryNavIndex');
     //取得categories并更新categoriesReady
     categoriesReady.value = true;
     categories.value = value.data.categories;

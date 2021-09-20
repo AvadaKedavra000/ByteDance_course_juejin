@@ -11,10 +11,8 @@ import {useStore} from 'vuex'
 import ListItem from '../components/ListItem.vue'
 
 const store=useStore();
-console.log(store.state.history);
-  console.log('历史浏览')
 const data=store.state.history;
-console.log(data.length);
+
 </script>
 <script>
 export default {

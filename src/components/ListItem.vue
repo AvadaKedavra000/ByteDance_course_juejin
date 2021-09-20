@@ -131,7 +131,7 @@ const clickArticle=(item)=>{
         }
     })
     //添加历史记录
-    console.log(item);
+    // console.log(item);
     const theIndex=store.state.history.indexOf(item);
     if(theIndex>=0){//若是找到了，则先删除
         store.state.history.splice(theIndex,1);

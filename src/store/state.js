@@ -4,7 +4,7 @@
 
 import { useRoute } from 'vue-router'
 const route=useRoute();
-console.log('state.js中的route',route);
+// console.log('state.js中的route',route);
 export default {
     primaryNavTitle: "hot",
     secondaryNavTitle:"recommended",

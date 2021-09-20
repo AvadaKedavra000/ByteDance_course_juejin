@@ -218,10 +218,10 @@ let offset = 0;
 let limit =10;
 //初始获取文章评论
 getCommentsByArticleId(article_id,offset,limit).then(a => {
-    console.log('评论内容',a.data.comments);
+    // console.log('评论内容',a.data.comments);
     has_more.value=a.has_more;
     comment.value = a.data.comments;
-    console.log('后来', comment.value);
+    // console.log('后来', comment.value);
 });
 
 //无限滚动:评论列表触底时触发的回调

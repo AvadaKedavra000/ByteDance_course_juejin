@@ -25,7 +25,7 @@ export default {
   setup() {
     let primaryNavIndex = ref(0);
     let isShow = ref(true);//是否展示NavBar导航栏
-    console.log('初始Index', primaryNavIndex.value);
+    // console.log('初始Index', primaryNavIndex.value);
     const router = useRouter();
     const store = useStore();
 
@@ -33,10 +33,10 @@ export default {
     router.beforeEach((to, from) => {
       store.commit("resetOffset");
 
-      console.log('NavBar中的路由守卫被触发了');
-      console.log('to.name', to.name);
-      console.log('to.params', to.params);
-      console.log('to.params.primaryRoute', to.params.primaryRoute);
+      // console.log('NavBar中的路由守卫被触发了');
+      // console.log('to.name', to.name);
+      // console.log('to.params', to.params);
+      // console.log('to.params.primaryRoute', to.params.primaryRoute);
 
       if (to.name === "ArticleDetails") {//若是文章详情页，不需要NavBar导航栏
         isShow.value = false;
@@ -62,7 +62,7 @@ export default {
           }
         }
         primaryNavIndex.value = getPrimaryNavIndex();
-        console.log('后来Index', primaryNavIndex.value);
+        // console.log('后来Index', primaryNavIndex.value);
 
         //设置store.sortBy
         const getSortBy = (Index) => {
@@ -80,7 +80,7 @@ export default {
         //取得分类id并设置store.categoryId
         getCategories().then(res => {
           const categories = res.data.categories;
-          console.log(categories);
+          // console.log(categories);
           //通过分类名称获取分类id
           const getCategoryIdFromName = (name1, name2) => {
             //若name2不为空,查找两层循环
@@ -125,9 +125,9 @@ export default {
 
 
     const route = useRoute();
-    console.log('NavBar被setup！！！ route~~~~', route.params);
+    // console.log('NavBar被setup！！！ route~~~~', route.params);
     onMounted(() => {
-      console.log('NavBar被挂载啦！！！ route~~~~', route.params);
+      // console.log('NavBar被挂载啦！！！ route~~~~', route.params);
     })
 
     const routerLinkList = [
@@ -175,7 +175,7 @@ export default {
     }
     //编程式路由导航
     const clickPrimaryNav = (index) => {
-      console.log('click___route.params', route.params)
+      // console.log('click___route.params', route.params)
       //先改变PrimaryNavTitle
       store.commit('changePrimaryNavTitle', routerLinkList[index].thePath);
       //若点击[历史]，则直接跳转，否则继续判断

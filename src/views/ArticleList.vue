@@ -19,7 +19,7 @@
 
 
 <script setup>
-  console.log("@@@@@@@@@@@@@@@@ArticleLisaat setup")
+
 import { onMounted,ref} from 'vue'
 import { useRoute,onBeforeRouteUpdate } from 'vue-router'
 import { useStore } from 'vuex'
@@ -37,7 +37,7 @@ onBeforeRouteUpdate(to => {
 
 
 onMounted(() => {
-  console.log('ArticleList组件被挂载啦！');
+  // console.log('ArticleList组件被挂载啦！');
 
   //设置store.primaryNavTitle,store.secondaryNavTitle,store.tertiaryNavTitle
   const getPrimaryNavTitle = (value) => {
@@ -74,8 +74,8 @@ onMounted(() => {
 let res = null;
 const ret = getArticles().then(a => {
   res = a;
-  console.log('res', res);
-  console.log('我获取数据啦！！！！！！！！！！！！！！')
+  // console.log('res', res);
+  // console.log('我获取数据啦！！！！！！！！！！！！！！')
 });
 
 </script>
