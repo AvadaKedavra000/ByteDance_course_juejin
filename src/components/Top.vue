@@ -1,7 +1,7 @@
 <template>
   <div class="top">
     <div class="logo">
-        <img src="//lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/dcec27cc6ece0eb5bb217e62e6bec104.svg" alt="掘金"/>
+        <embed src="../src/assets/logo.svg" alt="掘金"/>
     </div>
   </div>
 </template>
