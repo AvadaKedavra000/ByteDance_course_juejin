@@ -2,22 +2,22 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import NavBar from './components/NavBar.vue'
 import Top from './components/Top.vue'
-const router=useRouter();
-
+const router = useRouter();
+const route = useRoute();
 </script>
 
 <template>
   <Top />
   <!-- 路由出口 -->
   <!-- 路由匹配到的组件将渲染在这里 -->
-    <router-view v-slot="{ Component }" class="router-view">
-      <component :is="Component" />
-    </router-view>
-    <NavBar />
+  <keep-alive>
+    <router-view class="router-view"></router-view>
+  </keep-alive>
 
+  <NavBar />
 </template>
 
 <style>
@@ -28,7 +28,9 @@ body {
   overflow-y: hidden;
   overflow-x: hidden;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-family: -apple-system,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial;
+  font-family: -apple-system, system-ui, Segoe UI, Roboto, Ubuntu, Cantarell,
+    Noto Sans, sans-serif, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", Arial;
 }
 #app {
   height: 100%;
@@ -45,7 +47,7 @@ body {
   margin: 0 auto;
   
 } */
-.router-view{
+.router-view {
   /* padding-bottom:300px; */
   -webkit-overflow-scrolling: touch;
   /* height: 100%; */

@@ -31,10 +31,12 @@ export default {
 
     //全局路由守卫
     router.beforeEach((to, from) => {
+      store.commit("resetOffset");
+
       console.log('NavBar中的路由守卫被触发了');
-        console.log('to.name', to.name);
-        console.log('to.params', to.params);
-        console.log('to.params.primaryRoute', to.params.primaryRoute);
+      console.log('to.name', to.name);
+      console.log('to.params', to.params);
+      console.log('to.params.primaryRoute', to.params.primaryRoute);
 
       if (to.name === "ArticleDetails") {//若是文章详情页，不需要NavBar导航栏
         isShow.value = false;
@@ -116,6 +118,8 @@ export default {
       }
 
     })
+
+
 
 
 

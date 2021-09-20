@@ -8,22 +8,34 @@ const router = createRouter({
       path: '/',
       // redirect: '/hot',
       name:'origin',
-      component: () => import('../views/ArticleList.vue')
+      component: () => import('../views/ArticleList.vue'),
+      meta:{
+        keepAlive:false
+      }
     },
     {
       path: '/:primaryRoute?/:secondaryRoute?/:tertiaryRoute?',
       name: 'ArticleList',
       component: () => import('../views/ArticleList.vue'),
+      meta:{
+        keepAlive:true
+      }
     },
     {
       path: '/history',
       name: 'history',
       component: () => import('../views/History.vue'),
+      meta:{
+        keepAlive:false
+      }
     },
     {
       path: '/:article_id',
       name: 'ArticleDetails',
       component: () => import('../views/ArticleDetails.vue'),
+      meta:{
+        keepAlive:false
+      }
     },
   ]
 })

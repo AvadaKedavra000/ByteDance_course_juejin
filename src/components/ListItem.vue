@@ -55,7 +55,9 @@
 <script setup>
 import { unref, ref, isRef, watchEffect, toRefs } from 'vue'
 import{useRouter}from'vue-router'
+import{useStore} from 'vuex'
 const router=useRouter();
+const store=useStore();
 
 const props = defineProps({
     data: {
@@ -129,7 +131,12 @@ const clickArticle=(item)=>{
         }
     })
     //添加历史记录
-    //待完善！！！！！！！！！！！！！！！！！！！！！！
+    console.log(item);
+    const theIndex=store.state.history.indexOf(item);
+    if(theIndex>=0){//若是找到了，则先删除
+        store.state.history.splice(theIndex,1);
+    }
+    store.state.history.unshift(item);
 }
 
 </script>

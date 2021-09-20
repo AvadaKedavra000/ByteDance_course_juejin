@@ -113,8 +113,9 @@
                     </div>
                 </li>-->
             </ul>
+            <Observer :handle-intersect="getData1" root-selector=".comment-item" />
         </div>
-        <Observer :handle-intersect="getData" root-selector=".comment" />
+
     </div>
 </template>
 
@@ -202,21 +203,39 @@ getArticleById(article_id).then((res) => {
 
 
 
-//文章评论数据
-let comment = ref([]);
-console.log('原来', comment.value);
+
 
 
 
 //取文章评论
-getCommentsByArticleId(article_id).then((res) => {
-    console.log('评论内容', res.data.comments);
-    comment.value = res.data.comments;
-    console.log('后来', comment.value);
-})
 
-const getData = () => {
-    console.log('哈哈哈');
+//文章评论数据
+let comment = ref([]);
+//是否还有更多评论
+let has_more=ref(true);
+
+let offset = 0;
+let limit =10;
+//初始获取文章评论
+getCommentsByArticleId(article_id,offset,limit).then(a => {
+    console.log('评论内容',a.data.comments);
+    has_more.value=a.has_more;
+    comment.value = a.data.comments;
+    console.log('后来', comment.value);
+});
+
+//无限滚动:评论列表触底时触发的回调
+const getData1 = () => {
+    if(!has_more.value){
+        return;
+    }
+    offset+=10;
+    getCommentsByArticleId(article_id,offset,limit).then(a => {
+        has_more.value=a.has_more;
+        const newComment=a.data.comments;
+        comment.value = [...comment.value,...newComment];
+    });
+
 }
 
 </script>
@@ -238,7 +257,7 @@ $timeAndActionColor: #86909c;
 .page {
     height: $ArticleDetailsHeight;
     overflow-y: scroll;
-    overflow-x: hidden;
+    // overflow-x: hidden;
     box-sizing: border-box;
     padding: 0 20px;
 }

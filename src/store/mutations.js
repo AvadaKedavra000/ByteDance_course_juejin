@@ -21,5 +21,5 @@ export default {
     },
     resetOffset(state){
         state.offset=0;
-    },
+    }
   }

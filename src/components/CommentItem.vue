@@ -83,14 +83,8 @@ const props = defineProps({
 });
 
 
-console.log('setup');
-
-
-
-
 //计算由时间戳计算当时距今的时间,格式为 X天前 X月前 等等
 const time = (stamp) => {
-    console.log(stamp);
     const ms = (new Date()).getTime()-stamp;
     const s = Math.floor(ms / 1000);
     const min = Math.floor(ms / (1000 * 60));
@@ -144,13 +138,6 @@ const levelColor = (lv) => {
 
 </script>
 
-<script>
-export default {
-    setup(props) {
-        console.log('!!!!!!!!!!!!!!!!!!!', props)
-    }
-}
-</script>
 
 <style lang="scss" scoped>
 @import "../common/style/mixin";
@@ -187,10 +174,10 @@ $timeAndActionColor: #86909c;
             align-items: center;
             height: 17.6px;
             font-size: 14px;
-            //不换行
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            // //不换行
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+            // white-space: nowrap;
             .name {
                 color: $nameColor;
             }

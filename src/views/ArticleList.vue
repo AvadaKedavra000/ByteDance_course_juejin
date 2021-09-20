@@ -14,19 +14,26 @@
     <li>categoryId:{{ store.state.categoryId }}</li>
   </ul>
   <h2>内容区域~~~~~~~~~~~~~</h2> -->
-  <List />
+  <List id="List" />
 </template>
 
 
 <script setup>
+  console.log("@@@@@@@@@@@@@@@@ArticleLisaat setup")
 import { onMounted,ref} from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute,onBeforeRouteUpdate } from 'vue-router'
 import { useStore } from 'vuex'
 import SubNavBar from '../components/SubNavBar.vue'
 import List from '../components/List.vue'
 import { getArticles } from '../fake-api/index.js'
 const route = useRoute();
 const store = useStore();
+
+onBeforeRouteUpdate(to => {
+      //滚动条回到顶部
+      document.getElementById("List").scrollTop=0;
+});
+
 
 
 onMounted(() => {

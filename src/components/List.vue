@@ -51,9 +51,9 @@
             </li>
         </ul> -->
         
-        <ListItem :data="data" v-if="dataReady" class="ListItem"/>
+        <ListItem :data="data"  class="ListItem"/>
         
-        <Observer :handle-intersect="getData" root-selector=".ListItem" />
+        <Observer :handle-intersect="getData" root-selector=".list-box" />
     </div>
 </template>
   
@@ -73,7 +73,7 @@ const router=useRouter();
 let has_more=ref(true);//是否还有更多文章
 let data = ref([]);
 
-let dataReady = ref(false);//数据准备好了就传递给子组件<ListItem/>
+// let dataReady = ref(false);//数据准备好了就传递给子组件<ListItem/>
 
 //初始获取文章数据
 getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.state.limit).then(a => {
@@ -82,7 +82,7 @@ getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.
 
     data.value = a.data.articles;
 
-    dataReady.value = true;
+    // dataReady.value = true;
 
     console.log('List初始数据渲染好啦', data.value);
 });
@@ -92,24 +92,12 @@ const getData = () => {
     if(!has_more.value){
         return;
     }
-
-    console.log("@@@@@@无限滚动回调");
     store.commit("updateOffset");
     getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.state.limit).then(a => {
-        //非分离组件可运行
-        // has_more.value=a.has_more;
-        // const newData=a.data.articles;
-        // data.value = [...data.value,...newData];
-
-        //debuggggggggggggggggg
         has_more.value=a.has_more;
         const newData=a.data.articles;
-        console.log('前',data.value);
-        console.log(newData);
         data.value = [...data.value,...newData];
         store.commit("updateOffset");
-        console.log('新数据渲染好啦', newData);
-        console.log('更新后的data.value',data.value);
     });
 
 }

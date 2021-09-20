@@ -13,4 +13,5 @@ export default {
     categoryId:0,//文章分类Id
     offset:0,
     limit:20,
+    history:[]//历史浏览文章内容
 }

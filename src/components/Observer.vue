@@ -7,6 +7,7 @@
     width: 100%;
     height: 10px;
     background: transparent;
+    /* background: red; */
 }
 </style>
 
@@ -19,13 +20,14 @@ export default {
     },
     setup(props) {
         const { handleIntersect, rootSelector } = props;
+
         let observer = null
         const target = ref(null)
 
         onMounted(() => {
             const options = {
                 root: document.querySelector(rootSelector),
-                rootMargin: "200px 0px"
+                rootMargin: "0px"
             }
 
             // 构建观察器

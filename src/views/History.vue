@@ -1,23 +1,30 @@
 <template>
-  <h2>我是历史浏览</h2>
-  <h2>我是历史浏览</h2>
-  <h2>我是历史浏览</h2>
-  <h2>我是历史浏览</h2>
-  <h2>我是历史浏览</h2>
-  <h2>我是历史浏览</h2>
-  <h2>我是历史浏览</h2>
-  <h2>我是历史浏览</h2>
-  <h2>我是历史浏览</h2>
-  <h2>我是历史浏览</h2>
+    <ListItem v-if="data.length" :data="data" class="ListItem" />
+    <div class="tips" v-else>
+      <span>历史记录为空,快去【掘金】吧~</span>
+    </div>
 </template>
 
+
+<script setup>
+import {useStore} from 'vuex'
+import ListItem from '../components/ListItem.vue'
+
+const store=useStore();
+console.log(store.state.history);
+  console.log('历史浏览')
+const data=store.state.history;
+console.log(data.length);
+</script>
 <script>
 export default {
-  name: 'History',
-  components: {
-  },
+  name: 'History'
 }
 </script>
 
 <style>
+  .ListItem{
+    height:83vh;
+    overflow-y:scroll;
+  }
 </style>
