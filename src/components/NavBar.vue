@@ -2,7 +2,7 @@
   <div class="nav-bar" v-show="isShow">
     <ul class="nav-list">
       <li
-        v-for="(item,index) in routerLinkList"
+        v-for="(item, index) in routerLinkList"
         :key="index"
         class="nav-list-item"
         @click="clickPrimaryNav(index)"
@@ -38,7 +38,9 @@ export default {
       // console.log('to.params', to.params);
       // console.log('to.params.primaryRoute', to.params.primaryRoute);
 
-      if (to.name === "ArticleDetails") {//若是文章详情页，不需要NavBar导航栏
+      //若是文章详情页,注册,登录页,不需要NavBar导航栏
+      const thePath = ["ArticleDetails", "Login", "Register"]
+      if (thePath.includes(to.name)) {
         isShow.value = false;
         return true;
       }

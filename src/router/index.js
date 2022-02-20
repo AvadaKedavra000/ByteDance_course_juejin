@@ -7,34 +7,50 @@ const router = createRouter({
     {
       path: '/',
       // redirect: '/hot',
-      name:'origin',
+      name: 'origin',
       component: () => import('../views/ArticleList.vue'),
-      meta:{
-        keepAlive:false
+      meta: {
+        keepAlive: false
       }
     },
     {
       path: '/:primaryRoute?/:secondaryRoute?/:tertiaryRoute?',
       name: 'ArticleList',
       component: () => import('../views/ArticleList.vue'),
-      meta:{
-        keepAlive:true
+      meta: {
+        keepAlive: true
       }
     },
     {
       path: '/history',
       name: 'history',
       component: () => import('../views/History.vue'),
-      meta:{
-        keepAlive:false
+      meta: {
+        keepAlive: false
       }
     },
     {
       path: '/:article_id',
       name: 'ArticleDetails',
       component: () => import('../views/ArticleDetails.vue'),
-      meta:{
-        keepAlive:false
+      meta: {
+        keepAlive: false
+      }
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('../views/Login.vue'),
+      meta: {
+        keepAlive: false
+      }
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: () => import('../views/Register.vue'),
+      meta: {
+        keepAlive: false
       }
     },
   ]
