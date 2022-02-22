@@ -42,7 +42,7 @@ const router = createRouter({
       name: 'Login',
       component: () => import('../views/Login.vue'),
       meta: {
-        keepAlive: false
+        keepAlive: true
       }
     },
     {
@@ -50,7 +50,7 @@ const router = createRouter({
       name: 'Register',
       component: () => import('../views/Register.vue'),
       meta: {
-        keepAlive: false
+        keepAlive: true
       }
     },
   ]

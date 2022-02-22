@@ -1,25 +1,34 @@
 import { storeKey } from "vuex";
 
 export default {
-    changePrimaryNavTitle(state,title){
-        state.primaryNavTitle=title;
+    changePrimaryNavTitle(state, title) {
+        state.primaryNavTitle = title;
     },
-    changeSecondaryNavTitle(state,title){
-        state.secondaryNavTitle=title;
+    changeSecondaryNavTitle(state, title) {
+        state.secondaryNavTitle = title;
     },
-    changeTertiaryNavTitle(state,title){
-        state.tertiaryNavTitle=title;
+    changeTertiaryNavTitle(state, title) {
+        state.tertiaryNavTitle = title;
     },
-    setSortBy(state,value){
-        state.sortBy=value;
+    setSortBy(state, value) {
+        state.sortBy = value;
     },
-    setCategoryId(state,value){
-        state.categoryId=value;
+    setCategoryId(state, value) {
+        state.categoryId = value;
     },
-    updateOffset(state){
-        state.offset+=state.limit;
+    updateOffset(state) {
+        state.offset += state.limit;
     },
-    resetOffset(state){
-        state.offset=0;
-    }
-  }
+    resetOffset(state) {
+        state.offset = 0;
+    },
+    userLogin(state, value) {
+        state.be_logged_in = true;
+    },
+    userLogout(state) {
+        state.be_logged_in = false;
+    },
+    setUserName(state, value) {
+        state.userName = value;
+    },
+}

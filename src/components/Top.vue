@@ -3,9 +3,12 @@
 import { useRouter, useRoute } from 'vue-router'
 import LoginButton from './LoginButton.vue'
 import LogoutButton from './LogoutButton.vue'
+import { useStore } from 'vuex'
+import { ref } from 'vue'
 
 const router = useRouter();
 const route = useRoute();
+const store = useStore();
 
 console.log('hello script setup')
 
@@ -21,6 +24,7 @@ const toUserAuth = () => {
     name: 'UserAuth'
   })
 }
+
 </script>
 
 <template>
@@ -28,7 +32,8 @@ const toUserAuth = () => {
     <div class="logo" @click="backToHome">
       <img src="/src/assets/logo.png" alt="掘金" />
     </div>
-    <component class="user-box" :is="LoginButton" />
+    <LogoutButton v-if="store.state.be_logged_in" class="user-box" />
+    <LoginButton v-else class="user-box" />
   </div>
 </template>
 
@@ -55,6 +60,6 @@ const toUserAuth = () => {
   position: relative;
   left: -20px;
   top: 0;
-  border: solid 1px;
+  border: 0;
 }
 </style>
