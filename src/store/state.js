@@ -13,7 +13,7 @@ export default {
     categoryId: 0,//文章分类Id
     offset: 0,
     limit: 20,
-    history: [],//历史浏览文章内容
+    //history: [],//历史浏览文章内容------该存到session中,作为游客登陆的历史浏览记录
     be_logged_in: false,//用户是否已经登录
     userName: "",//用户名
 }

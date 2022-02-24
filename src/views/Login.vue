@@ -12,11 +12,13 @@
                     <input type="password" v-model="passWord" placeholder="密码" />
                 </div>
                 <button
+                    v-if="!isLogining"
                     :class="['confirm', 'button', { onDisabled: isDisabled }]"
                     type="button"
                     :disabled="isDisabled"
                     @click="login"
                 >登录</button>
+                <button v-else class="confirm button onDisabled" type="button" disabled>正在登录...</button>
                 <div class="register button" @click="toRegister">新用户 - 去注册</div>
             </div>
         </div>

@@ -3,7 +3,7 @@
     <ul class="list">
         <li
             class="item"
-            v-for="(item,index) in data"
+            v-for="(item, index) in data"
             :key="item.article_id"
             @click="clickArticle(item)"
         >
@@ -11,7 +11,7 @@
                 <div class="article-top">
                     <div class="article-author">{{ item.author_user_info.user_name }}</div>
                     <span class="separator">|</span>
-                    <div class="article-time">{{time(index)}}</div>
+                    <div class="article-time">{{ time(index) }}</div>
                 </div>
                 <div class="article-title">
                     <p>{{ item.article_info.title }}</p>
@@ -54,15 +54,16 @@
 
 <script setup>
 import { unref, ref, isRef, watchEffect, toRefs } from 'vue'
-import{useRouter}from'vue-router'
-import{useStore} from 'vuex'
-const router=useRouter();
-const store=useStore();
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import axios from 'axios'
+const router = useRouter();
+const store = useStore();
 
 const props = defineProps({
     data: {
-        type:Object,
-        required:true
+        type: Object,
+        required: true
     }
 });
 
@@ -121,22 +122,64 @@ const time = (index) => {
     }
 }
 
+//上传历史记录
+const updateHistory = (token, userName, article_id) => {
+    axios.post('https://qcgsjt.api.cloudendpoint.cn/addHistoryRecord', {
+        token: token,
+        userName: userName,
+        article_id: article_id
+    }).then((res) => {
+        //请求成功的回调函数
+        console.log(res)
+        if (res.data.code === 401) {        //失败
+            console.log("认证失效-上传历史记录失败")
+        }
+        else if (res.data.code === 200) {//成功
+            console.log("上传历史记录成功")
+        }
+    }).catch((err) => {
+        //请求失败的回调函数
+        console.log(err)
+        alert("请求失败!")
+
+    })
+}
+
 //点击文章时
-const clickArticle=(item)=>{
+const clickArticle = (item) => {
     //路由跳转，展示其详细信息
     router.push({
-        name:'ArticleDetails',
-        params:{
-           article_id:item.article_id
+        name: 'ArticleDetails',
+        params: {
+            article_id: item.article_id
         }
     })
-    //添加历史记录
-    // console.log(item);
-    const theIndex=store.state.history.indexOf(item);
-    if(theIndex>=0){//若是找到了，则先删除
-        store.state.history.splice(theIndex,1);
+
+    //游客状态下，历史记录保存在session中，key为history,value形如"{article_id:[id1,id2,id3]}"
+    if (!store.state.be_logged_in) {
+        const historySessionItem = sessionStorage.getItem('history')
+
+        const historyObj = historySessionItem ? JSON.parse(historySessionItem) : { article_id: [] }
+
+        const articleIdArr = historyObj.article_id
+
+        // console.log(item);
+        const theIndex = articleIdArr.indexOf(item.article_id);
+
+        if (theIndex >= 0) {//若是找到了，则先删除
+            articleIdArr.splice(theIndex, 1);
+        }
+        articleIdArr.unshift(item.article_id);//否则在数组开始处添加
+
+        //最后存到sessionStorage中
+        sessionStorage.setItem('history', JSON.stringify(historyObj))
+
     }
-    store.state.history.unshift(item);
+    else {//登陆状态下，历史记录上传至服务器
+        updateHistory(sessionStorage.getItem('token'), sessionStorage.getItem('userName'), item.article_id)
+    }
+
+
 }
 
 </script>

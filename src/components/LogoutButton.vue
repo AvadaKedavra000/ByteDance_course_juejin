@@ -30,6 +30,10 @@ const logout = () => {
     //清除sessionStorage中的userName和token
     sessionStorage.removeItem("userName")
     sessionStorage.removeItem("token")
+    //跳转
+    router.push({
+        name: 'origin'
+    })
 }
 
 </script>

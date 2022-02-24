@@ -41,7 +41,7 @@
 
 <script setup>
 import { ref, defineProps } from 'vue'
-import { getArticleById, getCommentsByArticleId } from '../fake-api/index.js'
+
 import { useRoute } from 'vue-router'
 import Observer from '../components/Observer.vue'
 
@@ -85,7 +85,7 @@ const props = defineProps({
 
 //计算由时间戳计算当时距今的时间,格式为 X天前 X月前 等等
 const time = (stamp) => {
-    const ms = (new Date()).getTime()-stamp;
+    const ms = (new Date()).getTime() - stamp;
     const s = Math.floor(ms / 1000);
     const min = Math.floor(ms / (1000 * 60));
     const hour = Math.floor(ms / (1000 * 60 * 60));
@@ -97,7 +97,7 @@ const time = (stamp) => {
         return `${year}年前`
     }
     if (month > 0) {
-            return `${month}月前`
+        return `${month}月前`
     }
     if (day > 0) {
         return `${day}天前`
