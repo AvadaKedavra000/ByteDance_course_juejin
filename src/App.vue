@@ -1,4 +1,19 @@
 <script setup>
+console.log("APP.vue setup")
+
+//默认主题为浅色
+localStorage.getItem
+const theme = localStorage.getItem("data-theme")
+if (!theme) {
+  localStorage.setItem("data-theme", "light")
+  document.documentElement.setAttribute("data-theme", "light");
+}
+else {
+  document.documentElement.setAttribute("data-theme", theme);
+}
+
+
+
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import axios from 'axios'
@@ -48,9 +63,12 @@ axios.post('https://qcgsjt.api.cloudendpoint.cn/validate', {
   <NavBar />
 </template>
 
-<style>
+<style lang="scss">
+@import "./common/style/handle.scss";
+
 html,
 body {
+  @include background_color("APP_body_background_color");
   height: 100%;
   margin: 0;
   overflow-y: hidden;

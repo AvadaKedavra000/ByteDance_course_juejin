@@ -1,0 +1,84 @@
+$themes: (
+  light: (
+    //字体
+    font_color1: #414141,
+    font_color2: white,
+    //背景
+    background_color1: #fff,
+    background_color2: #f0f2f5,
+    background_color3: red,
+    background_color4: #2674e7,
+    Top_background_color: #fff,
+    ArticleDetails_page_background_color: #fff,
+    ArticleDetails_page_font_color: #333,
+    //ListItem
+    ListItem_background_color: #fff,
+    ListItem_article_brief_color: #4e5969,
+    ListItem_article_title_color: #1d2e29,
+    ListItem_tag_background_color: #f4f5f5,
+    ListItem_tag_color: #4e5969,
+    //SubNavBar_sub_nav_bar
+    SubNavBar_sub_nav_bar_background_color: #f4f5f5,
+    //SubNavBar_sub_tag_active
+    SubNavBar_sub_tag_active_color: #fff,
+    SubNavBar_sub_tag_active_background_color: #007fff,
+    SubNavBar_sub_tag_active_border_color: #007fff,
+    //SubNavBar_sub_tag
+    SubNavBar_sub_tag_border_color: #fff,
+    SubNavBar_sub_tag_background_color: #fff,
+    SubNavBar_sub_tag_color: #71777c,
+    //SubNavBar_nav_bar
+    //SubNavBar_nav_bar_border_color: #2c3e50,
+    SubNavBar_nav_bar_background_color: #fff,
+    SubNavBar_nav_bar_color: #71777c,
+    //NavBar_nav_bar
+    NavBar_nav_bar_background_color: #fff,
+    //APP_body
+    APP_body_background_color: #fff,
+    //ArticleDetails
+    ArticleDetails_sub_comment_list_background_color: #f7f8fa,
+    ArticleDetails_name_color: #1d2129,
+    CommentItem_name_color: #1d2129,
+  ),
+  dark: (
+    //字体
+    font_color1: #a7a7a7,
+    font_color2: white,
+    //背景
+    background_color1: #1b2531,
+    background_color2: #283142,
+    background_color3: #1e6ceb,
+    background_color4: #323e4e,
+    Top_background_color: #2f3542,
+    ArticleDetails_page_background_color: #181a1b,
+    ArticleDetails_page_font_color: #c8c3bc,
+    //ListItem
+    ListItem_background_color: #181a1b,
+    ListItem_article_brief_color: #a7ae9d,
+    ListItem_article_title_color: #d2cec8,
+    ListItem_tag_background_color: #2c3e50,
+    ListItem_tag_color: #e8e6e3,
+    //SubNavBar_sub_nav_bar
+    SubNavBar_sub_nav_bar_background_color: #1e2022,
+    //SubNavBar_sub_tag_active
+    SubNavBar_sub_tag_active_color: #e8e6e3,
+    SubNavBar_sub_tag_active_background_color: #0066cc,
+    SubNavBar_sub_tag_active_border_color: #0066cc,
+    //SubNavBar_sub_tag
+    SubNavBar_sub_tag_border_color: #2c3e50,
+    SubNavBar_sub_tag_background_color: #2c3e50,
+    SubNavBar_sub_tag_color: #e8e6e3,
+    //SubNavBar_nav_bar
+    //SubNavBar_nav_bar_border_color: #2c3e50,
+    SubNavBar_nav_bar_background_color: #181a1b,
+    SubNavBar_nav_bar_color: #71777c,
+    //NavBar_nav_bar
+    NavBar_nav_bar_background_color: #1e2020,
+    //APP_body
+    APP_body_background_color: #181a1b,
+    //ArticleDetails
+    ArticleDetails_sub_comment_list_background_color: #1c1e1f,
+    ArticleDetails_name_color: #c8c3bc,
+    CommentItem_name_color: #c8c3bc,
+  ),
+);

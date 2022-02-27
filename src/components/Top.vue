@@ -25,6 +25,18 @@ const toUserAuth = () => {
   })
 }
 
+
+
+
+
+//测试
+//换主题
+const changeTheme = (theme) => {
+  localStorage.setItem("data-theme", theme)
+  document.documentElement.setAttribute("data-theme", theme);
+}
+
+
 </script>
 
 <template>
@@ -32,6 +44,11 @@ const toUserAuth = () => {
     <div class="logo" @click="backToHome">
       <img src="/src/assets/logo.png" alt="掘金" />
     </div>
+    <!-- 测试 -->
+
+    <button @click="changeTheme('dark')">变成深色</button>
+    <button @click="changeTheme('light')">变成浅色</button>
+
     <LogoutButton v-if="store.state.be_logged_in" class="user-box" />
     <LoginButton v-else class="user-box" />
   </div>
@@ -39,8 +56,18 @@ const toUserAuth = () => {
 
 
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../common/style/handle.scss";
+
+.common-util {
+  font-size: 18px;
+  @include font_color("font_color1");
+  @include background_color("background_color1");
+  @include border_color("border_color1");
+}
+
 .top {
+  @include background_color("Top_background_color");
   position: relative;
   width: 100vw;
   height: 60px;

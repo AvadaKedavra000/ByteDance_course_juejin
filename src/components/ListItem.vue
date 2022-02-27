@@ -187,6 +187,7 @@ const clickArticle = (item) => {
 
 <style lang="scss" scoped>
 @import "../common/style/mixin";
+@import "../common/style/handle.scss";
 
 $topFontSize: 14px;
 $topAuthorColor: #4e5969;
@@ -218,6 +219,7 @@ $briefTextColor: #4e5969;
 .list {
     padding: 0px;
     margin: 0px;
+    @include background_color("ListItem_background_color");
 }
 p {
     padding: 0px;
@@ -231,7 +233,6 @@ p {
 .item {
     box-sizing: border-box;
     padding: 12px 20px 0;
-    background: #fff;
 
     .article-top {
         display: flex;
@@ -245,7 +246,8 @@ p {
         }
     }
     .article-title {
-        color: $titleTextColor;
+        @include font_color("ListItem_article_title_color");
+        //color: $titleTextColor;
         font-weight: 600;
         font-size: $titleFontSize;
         text-align: left;
@@ -264,8 +266,9 @@ p {
             width: 0; //解决有时候简介内容把右边图片撑到右边脱离父元素的问题
             flex-grow: 1; //解决有时候简介内容把右边图片撑到右边脱离父元素的问题
             .article-brief {
+                @include font_color("ListItem_article_brief_color");
                 font-size: $briefFontSize;
-                color: $briefTextColor;
+                //color: $briefTextColor;
                 text-align: left;
                 overflow: hidden; //文本溢出限定的宽度就隐藏内容
                 text-overflow: ellipsis; //多行文本的情况下，用省略号“…”隐藏溢出范围的文本
@@ -312,9 +315,11 @@ p {
             display: flex;
             align-items: center;
             .tag {
+                @include background_color("ListItem_tag_background_color");
+                @include font_color("ListItem_tag_color");
                 font-size: $tagFontSize;
-                color: $tagTextColor;
-                background-color: #fafafa;
+                //color: $tagTextColor;
+                //background-color: #fafafa;
                 margin-left: 3px;
                 padding: 0 3px;
             }

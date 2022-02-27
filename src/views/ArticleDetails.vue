@@ -25,7 +25,9 @@
                 <img :src="cover_img" alt />
             </div>
         </div>
+
         <div class="content" v-html="article_content"></div>
+
         <div class="comment">
             <ul class="comment-list">
                 <div v-for="first in comment" :key="first.comment_id" class="comment-item">
@@ -115,7 +117,6 @@
             </ul>
             <Observer :handle-intersect="getData1" root-selector=".comment-item" />
         </div>
-
     </div>
 </template>
 
@@ -212,28 +213,28 @@ getArticleById(article_id).then((res) => {
 //文章评论数据
 let comment = ref([]);
 //是否还有更多评论
-let has_more=ref(true);
+let has_more = ref(true);
 
 let offset = 0;
-let limit =10;
+let limit = 10;
 //初始获取文章评论
-getCommentsByArticleId(article_id,offset,limit).then(a => {
+getCommentsByArticleId(article_id, offset, limit).then(a => {
     // console.log('评论内容',a.data.comments);
-    has_more.value=a.has_more;
+    has_more.value = a.has_more;
     comment.value = a.data.comments;
     // console.log('后来', comment.value);
 });
 
 //无限滚动:评论列表触底时触发的回调
 const getData1 = () => {
-    if(!has_more.value){
+    if (!has_more.value) {
         return;
     }
-    offset+=10;
-    getCommentsByArticleId(article_id,offset,limit).then(a => {
-        has_more.value=a.has_more;
-        const newComment=a.data.comments;
-        comment.value = [...comment.value,...newComment];
+    offset += 10;
+    getCommentsByArticleId(article_id, offset, limit).then(a => {
+        has_more.value = a.has_more;
+        const newComment = a.data.comments;
+        comment.value = [...comment.value, ...newComment];
     });
 
 }
@@ -245,6 +246,7 @@ const getData1 = () => {
 
 
 <style lang="scss" scoped>
+@import "../common/style/handle.scss";
 @import "../common/style/mixin";
 // .page::-webkit-scrollbar {
 //     display: none;
@@ -255,12 +257,18 @@ $contenColor: #4e5969;
 $timeAndActionColor: #86909c;
 
 .page {
+    @include background_color("ArticleDetails_page_background_color");
+    @include font_color("ArticleDetails_page_font_color");
     height: $ArticleDetailsHeight;
     overflow-y: scroll;
     // overflow-x: hidden;
     box-sizing: border-box;
     padding: 0 20px;
+    .name {
+        @include font_color("ArticleDetails_name_color");
+    }
 }
+
 .header {
     .author-info {
         width: 100%;
@@ -291,9 +299,7 @@ $timeAndActionColor: #86909c;
                 .author-name-and-lv {
                     display: flex;
                     align-items: center;
-                    .name {
-                        color: #000;
-                    }
+
                     .lv {
                         margin-left: 10px;
                         background-color: #599dff;
@@ -341,6 +347,7 @@ $timeAndActionColor: #86909c;
 }
 .content {
     text-align: left;
+
     // color:#333;
     // :deep(li){
     //     text-align: left;
@@ -411,17 +418,21 @@ $timeAndActionColor: #86909c;
                 }
             }
             .sub-comment-list {
+                @include background_color(
+                    "ArticleDetails_sub_comment_list_background_color"
+                );
                 box-sizing: border-box;
                 margin-bottom: 15px;
                 margin-left: 48px;
                 padding: 0 12px;
-                background-color: #f7f8fa;
+                //background-color: #f7f8fa;
+
                 .sub-comment-list-item:not(:last-child) {
                     border-bottom: solid 1px rgb(229, 230, 235);
                 }
             }
         }
-        .comment-item:not(:last-child){
+        .comment-item:not(:last-child) {
             border-bottom: solid 1px rgb(229, 230, 235);
         }
     }

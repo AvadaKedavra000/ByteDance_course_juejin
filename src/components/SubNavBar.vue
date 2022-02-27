@@ -5,7 +5,7 @@
         <div class="nav-bar">
             <ul class="nav-list" v-if="categoriesReady">
                 <li
-                    v-for="(item,index) in categories"
+                    v-for="(item, index) in categories"
                     :key="item.category_id"
                     class="nav-list-item"
                     @click="clickSecondaryNav(index)"
@@ -19,20 +19,20 @@
         <div class="sub-nav-bar" v-if="categoriesReady">
             <ul v-if="secondaryNavIndex != 0" class="sub-nav-list">
                 <li
-                    v-for="(item,index) in categories[secondaryNavIndex].children"
+                    v-for="(item, index) in categories[secondaryNavIndex].children"
                     :key="item.category_id"
                     class="sub-nav-list-item"
                     @click="clickTertiaryNav(index)"
                 >
                     <span
                         class="sub-tag"
-                        :class="{ 'sub-active': tertiaryNavIndex === index }"
+                        :class="{ 'sub-tag-active': tertiaryNavIndex === index }"
                     >{{ item.category_name }}</span>
                 </li>
             </ul>
             <ul v-else class="sub-nav-list">
                 <li class="sub-nav-list-item">
-                    <span class="sub-tag sub-active">推荐</span>
+                    <span class="sub-tag sub-tag-active">推荐</span>
                 </li>
             </ul>
         </div>
@@ -133,6 +133,7 @@ const clickTertiaryNav = (index) => {
   
   
 <style lang="scss" scoped>
+@import "../common/style/handle.scss";
 @import "../common/style/mixin";
 
 /* 定义变量与值 */
@@ -145,6 +146,8 @@ $shadowColor: rgb(0 0 0 / 10%);
     box-sizing: border-box;
 }
 .nav-bar {
+    @include background_color("SubNavBar_nav_bar_background_color");
+
     width: 100%;
     height: $SubBarHeight * 0.5;
     padding: 2px 0;
@@ -182,8 +185,10 @@ $sub-fontSize: 0.8rem;
     padding: 2px 0;
     box-shadow: 0 -2px 6px $shadowColor;
     z-index: 999;
-    background-color: $sub-bgColor;
-    color: $sub-textColor;
+    @include background_color("SubNavBar_sub_nav_bar_background_color");
+
+    // background-color: $sub-bgColor;
+    //color: $sub-textColor;
     font-size: $sub-fontSize;
     .sub-nav-list::-webkit-scrollbar {
         display: none;
@@ -204,15 +209,24 @@ $sub-fontSize: 0.8rem;
             justify-content: center;
         }
         .sub-tag {
-            background-color: #fff;
-            border: 6px solid #fff;
+            @include background_color("SubNavBar_sub_tag_background_color");
+            @include border_color("SubNavBar_sub_tag_border_color");
+            @include font_color("SubNavBar_sub_tag_color");
+            //background-color: #f2f3f5;
+            border: 6px solid;
+
             border-radius: 20px;
             white-space: nowrap;
         }
-        .sub-active {
-            background-color: $primary;
+        .sub-tag-active {
+            @include background_color(
+                "SubNavBar_sub_tag_active_background_color"
+            );
+            @include font_color("SubNavBar_sub_tag_active_color");
+            @include border_color("SubNavBar_sub_tag_active_border_color");
+            //background-color: $primary;
             border-color: $primary;
-            color: #fff;
+            //color: #fff;
         }
     }
 }

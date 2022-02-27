@@ -204,6 +204,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../common/style/mixin";
+@import "../common/style/handle.scss";
 /* 定义变量与值 */
 $bgColor: #fff;
 $textColor: #71777c;
@@ -227,8 +228,8 @@ $shadowColor: rgb(0 0 0 / 10%);
   padding: 2px 0;
   box-shadow: 0 -2px 6px $shadowColor;
   z-index: 999;
-
-  background-color: $bgColor;
+  @include background_color("NavBar_nav_bar_background_color");
+  //background-color: $bgColor;
   color: $textColor;
   font-size: $fontSize;
   .nav-list {

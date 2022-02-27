@@ -141,6 +141,7 @@ const levelColor = (lv) => {
 
 <style lang="scss" scoped>
 @import "../common/style/mixin";
+@import "../common/style/handle.scss";
 // .page::-webkit-scrollbar {
 //     display: none;
 // }
@@ -179,7 +180,8 @@ $timeAndActionColor: #86909c;
             // text-overflow: ellipsis;
             // white-space: nowrap;
             .name {
-                color: $nameColor;
+                //color: $nameColor;
+                @include font_color("CommentItem_name_color");
             }
             .lv {
                 margin: 0 5px;
