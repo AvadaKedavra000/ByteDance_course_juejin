@@ -1,11 +1,11 @@
 <template>
     <div class="Switch">
         <div class="text">Dark Side</div>
-        <div class="switch" :class="{ switchOn: isLight === true }">
-            <div class="switch-bg" :class="{ 'switch-bg-on': isLight === true }">
+        <div class="switch" :class="{ switchOn: isLight === false }">
+            <div class="switch-bg" :class="{ 'switch-bg-on': isLight === false }">
                 <div
                     class="switch-btn"
-                    :class="{ 'switch-btn-on': isLight === true }"
+                    :class="{ 'switch-btn-on': isLight === false }"
                     @click="openSwitch"
                 ></div>
             </div>
@@ -24,9 +24,8 @@ const changeTheme = (theme) => {
 }
 
 const openSwitch = () => {
-    changeTheme(isLight.value ? 'light' : 'dark')
     isLight.value = !isLight.value;
-
+    changeTheme(isLight.value ? 'light' : 'dark')
 }
 </script>
 

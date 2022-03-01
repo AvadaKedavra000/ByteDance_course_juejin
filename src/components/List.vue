@@ -1,8 +1,8 @@
 <template>
-    <div class="list-box" >
+    <div class="list-box">
         <!-- <ul v-if="dataReady" class="list"> -->
 
-            <!-- <ul  class="list">
+        <!-- <ul  class="list">
             <li class="item" v-for="(item,index) in data" :key="item.article_id" @click="clickArticle(item)">
                 <div class="article-box">
                     <div class="article-top">
@@ -49,10 +49,10 @@
                 </div>
                 <div class="item-separator"></div>
             </li>
-        </ul> -->
-        
-        <ListItem :data="data"  class="ListItem"/>
-        
+        </ul>-->
+
+        <ListItem :data="data" class="ListItem" />
+
         <Observer :handle-intersect="getData" root-selector=".list-box" />
     </div>
 </template>
@@ -60,25 +60,25 @@
 
 <script setup>
 // console.log('List setup啦')
-import { ref, toRefs,onMounted, onUnmounted, reactive, computed, watch, nextTick } from 'vue'
+import { ref, toRefs, onMounted, onUnmounted, reactive, computed, watch, nextTick } from 'vue'
 import { getArticles } from '../fake-api/index.js'
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import Observer from './Observer.vue'
 import ListItem from './ListItem.vue'
 
 const store = useStore();
-const router=useRouter();
+const router = useRouter();
 
-let has_more=ref(true);//是否还有更多文章
+let has_more = ref(true);//是否还有更多文章
 let data = ref([]);
 
 // let dataReady = ref(false);//数据准备好了就传递给子组件<ListItem/>
 
 //初始获取文章数据
-getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.state.limit).then(a => {
+getArticles(store.state.categoryId, store.state.sortBy, store.state.offset, store.state.limit).then(a => {
     // console.log('@@@@@@@@@@@@@@初始获取文章数据');
-    has_more.value=a.has_more;
+    has_more.value = a.has_more;
 
     data.value = a.data.articles;
 
@@ -89,14 +89,16 @@ getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.
 
 //无限滚动:文章列表触底时触发的回调
 const getData = () => {
-    if(!has_more.value){
+    console.log("触底了")
+    if (!has_more.value) {
+        console.log("没有更多数据了!")
         return;
     }
     store.commit("updateOffset");
-    getArticles(store.state.categoryId, store.state.sortBy,store.state.offset,store.state.limit).then(a => {
-        has_more.value=a.has_more;
-        const newData=a.data.articles;
-        data.value = [...data.value,...newData];
+    getArticles(store.state.categoryId, store.state.sortBy, store.state.offset, store.state.limit).then(a => {
+        has_more.value = a.has_more;
+        const newData = a.data.articles;
+        data.value = [...data.value, ...newData];
         store.commit("updateOffset");
     });
 
@@ -113,82 +115,12 @@ const categoryId = computed({
 watch([sortBy, categoryId], ([count1, prevCount1], [count2, prevCount2]) => {
     // console.log('路由参数改变啦');
     store.commit("resetOffset");
-    getArticles(store.state.categoryId,store.state.sortBy,store.state.offset,store.state.limit).then(a => {
+    getArticles(store.state.categoryId, store.state.sortBy, store.state.offset, store.state.limit).then(a => {
         data.value = a.data.articles;
         // console.log('刷新数据', a.data.articles);
     });
 })
 
-// //计算每篇文章距今的时间
-// const time = (index) => {
-//     const item = data.value[index];
-//     //item.article_info.ctime为秒级时间戳
-//     //计算
-//     const ms = (new Date()).getTime() - Number(item.article_info.ctime) * 1000;
-//     const s = Math.floor(ms / 1000);
-//     const min = Math.floor(ms / (1000 * 60));
-//     const hour = Math.floor(ms / (1000 * 60 * 60));
-//     const day = Math.floor(ms / (1000 * 60 * 60 * 24));
-//     const month = Math.floor(ms / (1000 * 60 * 60 * 24 * 30));
-//     const year = Math.floor(ms / (1000 * 60 * 60 * 24 * 30 * 12));
-//     //判断，返回
-//     if (year > 0) {
-//         if (year > 1) {
-//             return `${year} years ago`
-//         }
-//         else {
-//             return `1 year ago`
-//         }
-//     }
-//     if (month > 0) {
-//         if (month > 1) {
-//             return `${month} months ago`
-//         }
-//         else {
-//             return `1 month ago`
-//         }
-//     }
-//     if (day > 0) {
-//         if (day > 1) {
-//             return `${day} days ago`
-//         }
-//         else {
-//             return `1 day ago`
-//         }
-//     }
-//     if (hour > 0) {
-//         if (hour > 1) {
-//             return `${hour} hours ago`
-//         }
-//         else {
-//             return `1 day ago`
-//         }
-//     }
-//     if (min >= 0) {
-//         if (min > 1) {
-//             return `${min} minutes ago`
-//         }
-//         else {
-//             return `1 minute ago`
-//         }
-//     }
-// }
-
-
-
-
-// //点击跳转
-// const clickArticle=(item)=>{
-//     const theItem=toRefs(item);
-//     console.log('toRefs(item)',theItem);
-//     console.log(theItem.article_id.value);
-//     router.push({
-//         name:'ArticleDetails',
-//         params:{
-//            article_id:theItem.article_id.value
-//         }
-//     })
-// }
 
 
 
@@ -214,9 +146,9 @@ $titleTextColor: #1d2129;
 $briefFontSize: 14px;
 $briefTextColor: #4e5969;
 
-.list-box::-webkit-scrollbar {
-    display: none;
-}
+// .list-box::-webkit-scrollbar {
+//     display: none;
+// }
 .list-box {
     height: $ListHeight;
     overflow-y: scroll;
