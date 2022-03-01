@@ -243,7 +243,13 @@ const getData1 = () => {
 
 
 
-
+<style lang="scss">
+@import "../common/style/handle.scss";
+code {
+    @include background_color("ArticleDetails_content_background_color");
+    @include font_color("ArticleDetails_content_color");
+}
+</style>
 
 <style lang="scss" scoped>
 @import "../common/style/handle.scss";

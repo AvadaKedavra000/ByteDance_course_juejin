@@ -100,6 +100,7 @@ const register = () => {
 </script>
 
 <style lang="scss" scoped>
+@import "../common/style/handle.scss";
 .outer-box {
     display: flex;
     justify-content: center;
@@ -107,6 +108,7 @@ const register = () => {
     background-color: #daedf7;
     height: 100%;
     box-shadow: 0 -2px 6px rgb(0 0 0 / 10%);
+    @include background_color("Login_outer_box_background_color");
 }
 .login-box {
     margin-top: 30px;
@@ -118,6 +120,8 @@ const register = () => {
     align-items: center;
     justify-content: center;
     background-color: #fff;
+    @include background_color("Login_login_box_background_color");
+    @include border_color("Login_login_box_border_color");
 }
 .inner-box {
     width: 100%;
@@ -129,6 +133,7 @@ const register = () => {
         font-size: 23px;
         font-weight: 600;
         margin-bottom: 20px;
+        @include font_color("Login_text_color");
     }
     .input-contain {
         height: 80px;
@@ -138,6 +143,7 @@ const register = () => {
             width: 220px;
             text-align: left;
             font-size: 14px;
+            @include font_color("Login_text_color");
         }
         input {
             box-sizing: border-box;
@@ -146,6 +152,10 @@ const register = () => {
             padding: 10px;
             border: 1px solid #d9d9d9;
             outline-color: #007fff;
+            @include border_color("Login_input_border_color");
+            @include background_color("Login_input_background_color");
+            @include font_color("Login_input_color");
+            @include outline_color("Login_input_outline_color");
         }
         .tips {
             width: 220px;

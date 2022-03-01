@@ -1,10 +1,11 @@
 <script setup>
-
+import Switch from './Switch.vue'
 import { useRouter, useRoute } from 'vue-router'
 import LoginButton from './LoginButton.vue'
 import LogoutButton from './LogoutButton.vue'
 import { useStore } from 'vuex'
 import { ref } from 'vue'
+import Switch1 from './Switch.vue'
 
 const router = useRouter();
 const route = useRoute();
@@ -27,16 +28,6 @@ const toUserAuth = () => {
 
 
 
-
-
-//测试
-//换主题
-const changeTheme = (theme) => {
-  localStorage.setItem("data-theme", theme)
-  document.documentElement.setAttribute("data-theme", theme);
-}
-
-
 </script>
 
 <template>
@@ -44,11 +35,7 @@ const changeTheme = (theme) => {
     <div class="logo" @click="backToHome">
       <img src="/src/assets/logo.png" alt="掘金" />
     </div>
-    <!-- 测试 -->
-
-    <button @click="changeTheme('dark')">变成深色</button>
-    <button @click="changeTheme('light')">变成浅色</button>
-
+    <Switch></Switch>
     <LogoutButton v-if="store.state.be_logged_in" class="user-box" />
     <LoginButton v-else class="user-box" />
   </div>
@@ -58,13 +45,6 @@ const changeTheme = (theme) => {
 
 <style lang="scss" scoped>
 @import "../common/style/handle.scss";
-
-.common-util {
-  font-size: 18px;
-  @include font_color("font_color1");
-  @include background_color("background_color1");
-  @include border_color("border_color1");
-}
 
 .top {
   @include background_color("Top_background_color");

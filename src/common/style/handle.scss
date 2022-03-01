@@ -38,3 +38,10 @@
     border-color: themed($color) !important;
   }
 }
+
+//获取边框颜色
+@mixin outline_color($color) {
+  @include themeify {
+    outline-color: themed($color) !important;
+  }
+}
