@@ -42,11 +42,13 @@ axios.post('https://qcgsjt.api.cloudendpoint.cn/validate', {
     store.commit("userLogin")
     store.commit("setUserName", lastUserName)
   }
+  store.commit("setIsGlobalInitializing", false)
 
 }).catch((err) => {
   //请求失败的回调函数
   console.log(err)
   alert("认证失败!")
+  store.commit("setIsGlobalInitializing", false)
 
 })
 
@@ -98,7 +100,7 @@ body {
   -webkit-overflow-scrolling: touch;
   /* height: 100%; */
   /* overflow-y: scroll; */
-  width: 100%;
+  width: 100vw;
   /* height: 92vh; */
   box-sizing: border-box;
   /* position: absolute;

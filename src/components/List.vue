@@ -1,58 +1,6 @@
 <template>
     <div class="list-box">
-        <!-- <ul v-if="dataReady" class="list"> -->
-
-        <!-- <ul  class="list">
-            <li class="item" v-for="(item,index) in data" :key="item.article_id" @click="clickArticle(item)">
-                <div class="article-box">
-                    <div class="article-top">
-                        <div class="article-author">{{ item.author_user_info.user_name }}</div>
-                        <span class="separator">|</span>
-                        <div class="article-time">{{ time(index) }}</div>
-                    </div>
-                    <div class="article-title">
-                        <p>{{ item.article_info.title }}</p>
-                    </div>
-                    <div class="article-content">
-                        <div class="article-content-left">
-                            <div class="article-brief">
-                                <p>{{ item.article_info.brief_content }}</p>
-                            </div>
-                        </div>
-                        <div class="article-content-right">
-                            <img
-                                :src="item.article_info.cover_image"
-                                :alt="item.article_info.title"
-                            />
-                        </div>
-                    </div>
-                    <div class="article-footer">
-                        <div class="article-footer-left">
-                            <div class="iconbox">
-                                <i class="iconfont icon-browse"></i>
-                                <div class="icontext">{{ item.article_info.view_count }}</div>
-                            </div>
-                            <div class="iconbox">
-                                <i class="iconfont icon-good"></i>
-                                <div class="icontext">{{ item.article_info.digg_count }}</div>
-                            </div>
-                            <div class="iconbox">
-                                <i class="iconfont icon-comments"></i>
-                                <div class="icontext">评论</div>
-                            </div>
-                        </div>
-                        <div class="article-footer-right">
-                            <div class="tag">{{ item.category_info.first_category_name }}</div>
-                            <div class="tag">{{ item.category_info.second_category_name }}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="item-separator"></div>
-            </li>
-        </ul>-->
-
         <ListItem :data="data" class="ListItem" />
-
         <Observer :handle-intersect="getData" root-selector=".list-box" />
     </div>
 </template>

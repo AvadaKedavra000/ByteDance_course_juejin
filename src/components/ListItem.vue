@@ -155,11 +155,11 @@ const clickArticle = (item) => {
         }
     })
 
-    //游客状态下，历史记录保存在session中，key为history,value形如"{article_id:[id1,id2,id3]}"
+    //游客状态下，历史记录保存在localStorage中，key为history,value形如"{article_id:[id1,id2,id3]}"
     if (!store.state.be_logged_in) {
-        const historySessionItem = sessionStorage.getItem('history')
+        const historyLocalItem = localStorage.getItem('history')
 
-        const historyObj = historySessionItem ? JSON.parse(historySessionItem) : { article_id: [] }
+        const historyObj = historyLocalItem ? JSON.parse(historyLocalItem) : { article_id: [] }
 
         const articleIdArr = historyObj.article_id
 
@@ -171,12 +171,12 @@ const clickArticle = (item) => {
         }
         articleIdArr.unshift(item.article_id);//否则在数组开始处添加
 
-        //最后存到sessionStorage中
-        sessionStorage.setItem('history', JSON.stringify(historyObj))
+        //最后存到localStorage中
+        localStorage.setItem('history', JSON.stringify(historyObj))
 
     }
     else {//登陆状态下，历史记录上传至服务器
-        updateHistory(sessionStorage.getItem('token'), sessionStorage.getItem('userName'), item.article_id)
+        updateHistory(localStorage.getItem('token'), localStorage.getItem('userName'), item.article_id)
     }
 
 

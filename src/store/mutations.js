@@ -31,4 +31,7 @@ export default {
     setUserName(state, value) {
         state.userName = value;
     },
+    setIsGlobalInitializing(state, value) {
+        state.isGlobalInitializing = value;
+    }
 }

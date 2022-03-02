@@ -16,4 +16,5 @@ export default {
     //history: [],//历史浏览文章内容------该存到session中,作为游客登陆的历史浏览记录
     be_logged_in: false,//用户是否已经登录
     userName: "",//用户名
+    isGlobalInitializing: true,//是否正在全局初始化(查询是否在登录状态等)
 }
