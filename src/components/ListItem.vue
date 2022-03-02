@@ -176,7 +176,7 @@ const clickArticle = (item) => {
 
     }
     else {//登陆状态下，历史记录上传至服务器
-        updateHistory(localStorage.getItem('token'), localStorage.getItem('userName'), item.article_id)
+        updateHistory(sessionStorage.getItem('token'), sessionStorage.getItem('userName'), item.article_id)
     }
 
 
