@@ -1,6 +1,18 @@
-<script setup>
+<script setup lang="ts">
 console.log("APP.vue setup")
 
+import Top from './components/Top.vue'
+import NavBar from './components/NavBar.vue'
+
+
+import useInit from "./hooks/useInit"
+
+const { initTheme, initVerification } = useInit();
+
+initTheme();
+
+initVerification();
+/*
 //默认主题为浅色
 localStorage.getItem
 const theme = localStorage.getItem("data-theme")
@@ -19,8 +31,7 @@ else {
 import axios from 'axios'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import NavBar from './components/NavBar.vue'
-import Top from './components/Top.vue'
+
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
@@ -51,6 +62,7 @@ axios.post('https://qcgsjt.api.cloudendpoint.cn/validate', {
   store.commit("setIsGlobalInitializing", false)
 
 })
+*/
 
 </script>
 
