@@ -1,10 +1,17 @@
 <script setup>
-import Switch from './Switch.vue'
-import { useRouter, useRoute } from 'vue-router'
-import LoginButton from './LoginButton.vue'
-import LogoutButton from './LogoutButton.vue'
+import { ref, defineAsyncComponent } from 'vue'
 import { useStore } from 'vuex'
-import { ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+
+import Switch from './Switch.vue'
+
+// import LoginButton from './LoginButton.vue'
+// import LogoutButton from './LogoutButton.vue'
+
+const LoginButton = defineAsyncComponent(() => import('./LoginButton.vue'))
+const LogoutButton = defineAsyncComponent(() => import('./LogoutButton.vue'))
+
+
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
@@ -33,7 +40,6 @@ const toUserAuth = () => {
     <div class="logo" @click="backToHome">
       <img src="/src/assets/logo.png" alt="掘金" />
     </div>
-    <skeleton width="50px" height="20px" animated bg="#999" />
     <Switch></Switch>
     <LogoutButton v-if="store.state.be_logged_in" class="user-box" />
     <LoginButton v-else class="user-box" />

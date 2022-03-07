@@ -23,7 +23,11 @@
                         </div>
                     </div>
                     <div class="article-content-right">
-                        <img :src="item.article_info.cover_image" :alt="item.article_info.title" />
+                        <img
+                            :src="item.article_info.cover_image"
+                            :alt="item.article_info.title"
+                            loading="lazy"
+                        />
                     </div>
                 </div>
                 <div class="article-footer">

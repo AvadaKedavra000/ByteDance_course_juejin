@@ -3,7 +3,7 @@ import { useStore } from "vuex";
 
 export default function useInit() {
   //默认主题为浅色
-  const initTheme = () => {
+  const initTheme = (): void => {
     const theme = localStorage.getItem("data-theme");
     if (!theme) {
       localStorage.setItem("data-theme", "light");
@@ -16,7 +16,7 @@ export default function useInit() {
   const store = useStore();
 
   //初始化用户登陆状态
-  const initVerification = () => {
+  const initVerification = (): void => {
     //验证lastToken和lastUserName是否仍有效
     const lastToken = sessionStorage.getItem("token");
     const lastUserName = sessionStorage.getItem("userName");
