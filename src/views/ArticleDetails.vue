@@ -61,59 +61,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- <li 
-                v-for="item in comment" 
-                :key="item.comment_id"
-                class="comment-item">
-                    <div class="comment-avater">
-                        <div class="comment-img-box">
-                            <img
-                                :src="item.user_info.avatar_large"
-                                alt
-                            />
-                        </div>
-                    </div>
-                    <div class="comment-threads">
-                        <div class="comment-header">
-                            <div class="name">{{item.user_info.user_name}}</div>
-                            <span class="divide">|</span>
-                            <div class="time">1天前</div>
-                        </div>
-                        <div
-                            class="comment-content"
-                        >{{item.comment_info.comment_content}}
-                        </div>
-                        <div class="comment-action-box">
-                            <div class="dig-item">
-                                <i class="iconfont icon-good"></i>
-                                <span v-if="item.comment_info.digg_count===0">点赞</span>
-                                <span v-else>{{item.comment_info.digg_count}}</span>
-                            </div>
-                            <div class="com-item">
-                                <i class="iconfont icon-comments"></i>
-                                <span v-if="item.comment_info.reply_count===0">评论</span>
-                                <span v-else>{{item.comment_info.reply_count}}</span>
-                            </div>
-                        </div>
-                        <div 
-                        v-if="item.comment_info.reply_count > 0 " 
-                        class="sub-comment-list">
-                            <CommentItem 
-                            v-for="second in item.reply_infos"
-                            :key="second.reply_id"
-                            :avatar_large="second.user_info.avatar_large"
-                            :user_name="second.user_info.user_name"
-                            :level="second.user_info.level"
-                            :description="second.user_info.job_title"
-                            :ctime="second.reply_info.ctime"
-                            :comment_content="second.reply_info.reply_content"
-                            :digg_count="second.reply_info.digg_count"
-                            :reply_count="0"
-                            />
-                        </div>
-                    </div>
-                </li>-->
             </ul>
             <Observer :handle-intersect="getData1" root-selector=".comment-item" />
         </div>

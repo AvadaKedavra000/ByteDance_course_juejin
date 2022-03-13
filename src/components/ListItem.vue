@@ -1,11 +1,11 @@
 <!--debug!!!!!!!!!!!!!!!!!!!!!!!-->
 <template>
-    <ul class="list">
+    <ul class="list" @click="clickArticle">
         <li
             class="item"
             v-for="(item, index) in data"
             :key="item.article_id"
-            @click="clickArticle(item)"
+            :data-id="item.article_id"
         >
             <div class="article-box">
                 <div class="article-top">
@@ -150,12 +150,21 @@ const updateHistory = (token, userName, article_id) => {
 }
 
 //点击文章时
-const clickArticle = (item) => {
+const clickArticle = (e) => {
+    //li下有多个子元素，而自定义属性data-id绑定在li上，故当点击li的子元素时，要找其父元素直到找到li为止
+    let el = e.target
+    while (el && el.nodeName.toLowerCase() !== 'li') {
+        el = el.parentNode
+    }
+
+    const currentId = el.dataset.id
+
+
     //路由跳转，展示其详细信息
     router.push({
         name: 'ArticleDetails',
         params: {
-            article_id: item.article_id
+            article_id: currentId
         }
     })
 
@@ -168,19 +177,19 @@ const clickArticle = (item) => {
         const articleIdArr = historyObj.article_id
 
         // console.log(item);
-        const theIndex = articleIdArr.indexOf(item.article_id);
+        const theIndex = articleIdArr.indexOf(currentId);
 
         if (theIndex >= 0) {//若是找到了，则先删除
             articleIdArr.splice(theIndex, 1);
         }
-        articleIdArr.unshift(item.article_id);//否则在数组开始处添加
+        articleIdArr.unshift(currentId);//否则在数组开始处添加
 
         //最后存到localStorage中
         localStorage.setItem('history', JSON.stringify(historyObj))
 
     }
     else {//登陆状态下，历史记录上传至服务器
-        updateHistory(sessionStorage.getItem('token'), sessionStorage.getItem('userName'), item.article_id)
+        updateHistory(sessionStorage.getItem('token'), sessionStorage.getItem('userName'), currentId)
     }
 
 

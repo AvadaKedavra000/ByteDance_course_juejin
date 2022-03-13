@@ -17,8 +17,6 @@ const toUserAuth = () => {
 const isShow = ref(true)
 //全局路由守卫
 router.beforeEach((to, from) => {
-    console.log("啦啦啦")
-    console.log(to.name)
     //若是文章详情页,注册,登录页,不需要NavBar导航栏
     if (to.name === "Login" || to.name === "Register") {
         isShow.value = false;
