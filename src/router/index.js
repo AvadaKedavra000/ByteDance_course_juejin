@@ -10,7 +10,7 @@ const router = createRouter({
       name: 'origin',
       component: () => import('../views/ArticleList.vue'),
       meta: {
-        keepAlive: false
+        keepAlive: true
       }
     },
     {
@@ -53,7 +53,7 @@ const router = createRouter({
         keepAlive: true
       }
     },
-  ]
+  ],
 })
 //暴露路由器
 export default router

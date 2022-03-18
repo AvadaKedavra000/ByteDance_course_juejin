@@ -7,7 +7,6 @@
     width: 100%;
     height: 10px;
     background: transparent;
-    /* background: red; */
 }
 </style>
 

@@ -1,39 +1,20 @@
 <template>
   <SubNavBar />
-<!-- 
-  <ul>
-    <li>route中获取:</li>
-    <li>一级路由:{{ route.params.primaryRoute }}</li>
-    <li>二级路由:{{ route.params.secondaryRoute }}</li>
-    <li>三级路由:{{ route.params.tertiaryRoute }}</li>
-    <li>store中获取:</li>
-    <li>一级路由:{{ store.state.primaryNavTitle }}</li>
-    <li>二级路由:{{ store.state.secondaryNavTitle }}</li>
-    <li>三级路由:{{ store.state.tertiaryNavTitle }}</li>
-    <li>sortBy:{{ store.state.sortBy }}</li>
-    <li>categoryId:{{ store.state.categoryId }}</li>
-  </ul>
-  <h2>内容区域~~~~~~~~~~~~~</h2> -->
   <List id="List" />
 </template>
 
 
 <script setup>
+console.log("ArticleList.vue setup")
 
-import { onMounted,ref} from 'vue'
-import { useRoute,onBeforeRouteUpdate } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { useStore } from 'vuex'
 import SubNavBar from '../components/SubNavBar.vue'
 import List from '../components/List.vue'
 import { getArticles } from '../fake-api/index.js'
 const route = useRoute();
 const store = useStore();
-
-onBeforeRouteUpdate(to => {
-      //滚动条回到顶部
-      document.getElementById("List").scrollTop=0;
-});
-
 
 
 onMounted(() => {
@@ -71,13 +52,6 @@ onMounted(() => {
 });
 
 
-let res = null;
-const ret = getArticles().then(a => {
-  res = a;
-  // console.log('res', res);
-  // console.log('我获取数据啦！！！！！！！！！！！！！！')
-});
-
 </script>
 
 <script>
@@ -92,7 +66,7 @@ ul li {
   padding: 0px;
   margin: 0px;
 }
-.ArticleList{
-  margin-bottom:60px;
+.ArticleList {
+  margin-bottom: 60px;
 }
 </style>

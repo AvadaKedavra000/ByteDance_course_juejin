@@ -1,8 +1,9 @@
-@import './base.scss';
-$primary: #007FFF; // 主题色
-// $NavBarHeight:3.25rem;
-$NavBarHeight:8vh;
-$SubBarHeight:12vh;
-//$ListHeight:80vh;//为什么不能刚好拼接上？？？？？
-$ListHeight:78vh;//为什么不能刚好拼接上？？？？？
-$ArticleDetailsHeight:92vh;
+@import "./base.scss";
+$primary: #007fff; // 主题色
+$TopHeight: 60px;
+// $NavBarHeight: 8vh;
+$NavBarHeight: 50px;
+// $SubBarHeight: 12vh;
+$SubBarHeight: 70px;
+$ListHeight: 78vh; //为什么不能刚好拼接上？？？？？
+$ArticleDetailsHeight: 92vh;

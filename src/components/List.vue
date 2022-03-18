@@ -1,16 +1,16 @@
 <template>
     <div class="list-box">
-        <ListItem :data="data" class="ListItem" />
+        <ListItem :data="data" class="list-item" />
         <Observer :handle-intersect="getData" root-selector=".list-box" />
     </div>
 </template>
   
 
 <script setup>
-// console.log('List setup啦')
-import { ref, toRefs, onMounted, onUnmounted, reactive, computed, watch, nextTick } from 'vue'
+console.log('List setup啦')
+import { ref, computed, watch, onActivated, onDeactivated } from 'vue'
 import { getArticles } from '../fake-api/index.js'
-import { useRouter } from 'vue-router'
+import { useRouter, onBeforeRouteUpdate, onBeforeRouteLeave } from 'vue-router'
 import { useStore } from 'vuex'
 import Observer from './Observer.vue'
 import ListItem from './ListItem.vue'
@@ -71,7 +71,34 @@ watch([sortBy, categoryId], ([count1, prevCount1], [count2, prevCount2]) => {
 
 
 
+//关于滚动条的逻辑，当从内容列表页面进入详情页面时，我们希望缓存当前的滚动位置
+let scrollTopSaved = 0
 
+//被 keep-alive 缓存的组件激活时调用,(选择筛选项目时不触发,从其他路由进入....时触发)
+onActivated(() => {
+    console.log('List.vue activated!')
+    const ListBoxDom = document.querySelector(".list-box");
+    ListBoxDom.scrollTop = scrollTopSaved
+    console.log(scrollTopSaved)
+})
+
+//当前位置的组件将要离开时触发(选择筛选项目时不触发,其他路由触发)
+//此时要记录当前的滚动位置
+onBeforeRouteLeave((to, from) => {
+    console.log('onBeforeRouteLeave')
+    const ListBoxDom = document.querySelector(".list-box");
+    scrollTopSaved = ListBoxDom.scrollTop
+    console.log(scrollTopSaved)
+})
+
+//当前位置即将更新时触发,(选择筛选项目时触发,其他路由不触发)
+//此时要使得滚动条回到顶部
+onBeforeRouteUpdate((to, from) => {
+    console.log('List.vue onBeforeRouteUpdate')
+    //滚动条回到顶部
+    document.querySelector(".list-box").scrollTop = 0;
+
+});
 </script>
 
 <style lang="scss" scoped>
@@ -94,11 +121,9 @@ $titleTextColor: #1d2129;
 $briefFontSize: 14px;
 $briefTextColor: #4e5969;
 
-// .list-box::-webkit-scrollbar {
-//     display: none;
-// }
 .list-box {
-    height: $ListHeight;
+    //height: $ListHeight;
+    height: calc(100% - 200px);
     overflow-y: scroll;
     overflow-x: hidden;
     box-sizing: border-box;

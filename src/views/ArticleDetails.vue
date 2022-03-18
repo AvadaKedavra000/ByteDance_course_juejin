@@ -72,6 +72,8 @@
 
 
 <script setup>
+console.log("ArticleDetails.vue setup")
+
 import { computed, ref, reactive } from 'vue'
 import { getArticleById, getCommentsByArticleId } from '../fake-api/index.js'
 import { useRoute } from 'vue-router'
