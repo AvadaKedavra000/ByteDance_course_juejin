@@ -121,17 +121,20 @@ const getHistoryArticle = () => {
   }
 }
 
+let getMoreDataLoading = false
+
 //触底后获取更多游客/用户历史数据
 const getMoreData = () => {
-  if (!hasMore) { return }
   console.log('到底了')
-  const be_logged_in = computed(() => store.state.be_logged_in)
+  if (!hasMore || getMoreDataLoading) { return }
+  getMoreDataLoading = true
+
 
   if (!be_logged_in.value) {//1.若为游客状态
-    visitorGetData(offset.value, limit)
+    visitorGetData(offset.value, limit, () => { getMoreDataLoading = false })
   }
   else {//2.否则从服务器获取记录
-    userGetData(offset.value, limit)
+    userGetData(offset.value, limit, () => { getMoreDataLoading = false })
   }
 
 }

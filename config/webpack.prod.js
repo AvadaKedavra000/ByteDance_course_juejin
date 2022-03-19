@@ -6,6 +6,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
 module.exports = merge(baseConfig, {
     mode: "production",
     output: {
@@ -34,6 +36,16 @@ module.exports = merge(baseConfig, {
                 filename: '[name][contenthash:8].css'
             }
         ),
+        new UglifyJsPlugin({
+            uglifyOptions: {
+                output: {
+                    comments: false
+                },
+                compress: {
+                    drop_console: true
+                }
+            }
+        })
         //new BundleAnalyzerPlugin()
     ],
 });

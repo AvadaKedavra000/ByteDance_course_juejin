@@ -222,7 +222,7 @@ $shadowColor: rgb(0 0 0 / 10%);
   box-sizing: border-box;
 
   width: 100%;
-  height: $TopHeight;
+  height: $NavBarHeight;
   display: flex;
   align-items: center;
   padding: 2px 0;

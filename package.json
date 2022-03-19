@@ -34,6 +34,7 @@
     "speed-measure-webpack-plugin": "^1.5.0",
     "ts-loader": "^9.2.7",
     "typescript": "^4.6.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "vite": "^2.5.1",
     "vue-loader": "^17.0.0",
     "webpack": "^5.70.0",

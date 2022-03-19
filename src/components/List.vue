@@ -122,8 +122,7 @@ $briefFontSize: 14px;
 $briefTextColor: #4e5969;
 
 .list-box {
-    //height: $ListHeight;
-    height: calc(100% - 200px);
+    height: calc(100% - 190px);
     overflow-y: scroll;
     overflow-x: hidden;
     box-sizing: border-box;

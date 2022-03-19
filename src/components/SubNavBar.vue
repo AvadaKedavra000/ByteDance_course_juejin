@@ -180,6 +180,7 @@ $sub-bgColor: #f4f5f5;
 $sub-textColor: #71777c;
 $sub-fontSize: 0.8rem;
 .sub-nav-bar {
+    box-sizing: border-box;
     width: 100%;
     height: $SubBarHeight * 0.5;
     padding: 2px 0;
@@ -187,8 +188,6 @@ $sub-fontSize: 0.8rem;
     z-index: 999;
     @include background_color("SubNavBar_sub_nav_bar_background_color");
 
-    // background-color: $sub-bgColor;
-    //color: $sub-textColor;
     font-size: $sub-fontSize;
     .sub-nav-list::-webkit-scrollbar {
         display: none;
@@ -201,7 +200,6 @@ $sub-fontSize: 0.8rem;
         display: flex;
         overflow-x: scroll;
 
-        // justify-content: flex-start;
         align-items: center;
         .sub-nav-list-item {
             display: flex;

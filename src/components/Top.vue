@@ -49,13 +49,14 @@ const toUserAuth = () => {
 
 
 <style lang="scss" scoped>
+@import "../common/style/mixin";
 @import "../common/style/handle.scss";
 
 .top {
   @include background_color("Top_background_color");
   position: relative;
   width: 100vw;
-  height: 60px;
+  height: $TopHeight;
   padding: 0 12px;
 
   display: flex;

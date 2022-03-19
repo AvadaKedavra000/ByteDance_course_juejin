@@ -203,9 +203,7 @@ code {
 <style lang="scss" scoped>
 @import "../common/style/handle.scss";
 @import "../common/style/mixin";
-// .page::-webkit-scrollbar {
-//     display: none;
-// }
+
 $avatarSize: 32px;
 $nameColor: #1d2129;
 $contenColor: #4e5969;
@@ -214,7 +212,7 @@ $timeAndActionColor: #86909c;
 .page {
     @include background_color("ArticleDetails_page_background_color");
     @include font_color("ArticleDetails_page_font_color");
-    height: $ArticleDetailsHeight;
+    height: calc(100% - 60px);
     overflow-y: scroll;
     // overflow-x: hidden;
     box-sizing: border-box;
